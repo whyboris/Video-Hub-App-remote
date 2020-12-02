@@ -1,0 +1,33 @@
+.buttons {
+  background-color: #aaaaaa;
+  border-bottom: 1px solid #777777;
+  box-sizing: border-box;
+  height: 30px;
+  width: 100vw;
+}
+
+.whole {
+  height: calc(100vh - 30px);
+  width: 100vw;
+}
+
+virtual-scroller {
+  background-color: #eeeeee;
+  height: 100%;
+}
+
+.search-input {
+  border-radius: 5px;
+  border: 1px solid #555555;
+  margin: 3px;
+  outline: none;
+  padding: 3px;
+  width: 100px;
+}
+
+button {
+  border-radius: 5px;
+  border: 1px solid #555555;
+  outline: none;
+  padding: 2px 7px;
+}

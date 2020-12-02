@@ -1,0 +1,51 @@
+<div class="buttons">
+
+  <input
+    [(ngModel)]="searchString"
+    class="search-input"
+    placeholder="search"
+  >
+
+  <button (click)="searchString = ''">x</button>
+</div>
+
+<div class="whole">
+
+  <virtual-scroller
+    #scroll
+    [items]="items | searchPipe : searchString"
+  >
+    <app-thumbnail
+      *ngFor="let item of scroll.viewPortItems"
+
+      (videoClick)="handleClick($event)"
+
+      [video]="item"
+
+      [connected]="true"
+
+      [elHeight]="184"
+      [elWidth]="256"
+      [folderPath]="'lol'"
+      [hubName]="'hi'"
+      [imgHeight]="144"
+
+      [hoverScrub]="true"
+      [showMeta]="true"
+
+      [compactView]="false"
+      [darkMode]="false"
+      [largerFont]="false"
+      [returnToFirstScreenshot]="false"
+      [thumbAutoAdvance]="false"
+
+      style="display: inline-block"
+      [ngStyle]="{
+          height: '184px',
+          width: '296px'
+        }"
+    ></app-thumbnail>
+
+  </virtual-scroller>
+
+</div>

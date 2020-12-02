@@ -1,0 +1,26 @@
+.filmstrip-container {
+  display: inline-block;
+  margin: 20px 20px 0;
+  overflow: hidden;
+  position: relative;
+  transition: 300ms;
+  transition-property: height;
+}
+
+.title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  font-family: sans-serif;
+  font-size: 12px;
+  margin: 6px 2px 0px;
+  max-height: 54px;
+  overflow: hidden;
+  position: absolute;
+  text-align: left;
+  text-overflow: ellipsis;
+  transition-property: font-size;
+  transition: 300ms;
+  width: 100%;
+  word-wrap: break-word;
+}
