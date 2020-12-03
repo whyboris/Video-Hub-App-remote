@@ -7,6 +7,15 @@
   >
 
   <button (click)="searchString = ''">x</button>
+
+  <button
+    (click)="getLatestData()"
+    class="btn-refresh"
+    [disabled]="!socketConnected"
+  >
+    refresh
+  </button>
+
 </div>
 
 <div class="whole">
