@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
-    // 'ws://localhost:8080' or for testing 'wss://echo.websocket.org');
+    // 'ws://localhost:8080' or for testing 'wss://echo.websocket.org'
     const socketAddress: string = 'ws://' + window.location.hostname + ':8080';
 
     this.websocket = new WebSocket(socketAddress);
