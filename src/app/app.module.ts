@@ -11,6 +11,8 @@ import { AppComponent } from './app.component';
 import { ThumbnailComponent } from './thumb/thumbnail.component';
 
 import { SearchPipe } from './search.pipe';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { SearchPipe } from './search.pipe';
     FormsModule,
     HttpClientModule,
     VirtualScrollerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     FilePathService

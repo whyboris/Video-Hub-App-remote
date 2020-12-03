@@ -31,3 +31,13 @@ button {
   outline: none;
   padding: 2px 7px;
 }
+
+.btn-refresh {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+
+button:disabled {
+  border: 1px solid #888888;
+}
