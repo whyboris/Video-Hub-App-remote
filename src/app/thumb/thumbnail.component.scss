@@ -24,3 +24,11 @@
   width: 100%;
   word-wrap: break-word;
 }
+
+.video-box {
+  background-color: black;
+  background-size: cover;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}

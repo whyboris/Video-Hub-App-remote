@@ -19,7 +19,7 @@ virtual-scroller {
 .search-input {
   border-radius: 5px;
   border: 1px solid #555555;
-  margin: 3px;
+  margin: 3px 5px 0 30px;
   outline: none;
   padding: 3px;
   width: 100px;
@@ -28,8 +28,11 @@ virtual-scroller {
 button {
   border-radius: 5px;
   border: 1px solid #555555;
+  margin: 0 5px;
   outline: none;
-  padding: 2px 7px;
+  padding: 2px 0;
+  text-align: center;
+  width: 21px;
 }
 
 .btn-refresh {

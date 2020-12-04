@@ -1,19 +1,23 @@
 <div class="buttons">
 
+  <button [disabled]="currentImgsPerRow === 1" (click)="zoomIn()">+</button>
+
+  <button (click)="zoomOut()">-</button>
+
   <input
     [(ngModel)]="searchString"
     class="search-input"
     placeholder="search"
   >
-
   <button (click)="searchString = ''">x</button>
+
 
   <button
     (click)="getLatestData()"
     class="btn-refresh"
     [disabled]="!socketConnected"
   >
-    refresh
+    #
   </button>
 
 </div>
@@ -22,6 +26,7 @@
 
   <virtual-scroller
     #scroll
+    id="scrollDiv"
     [items]="items | searchPipe : searchString"
   >
     <app-thumbnail
@@ -33,11 +38,13 @@
 
       [connected]="true"
 
-      [elHeight]="184"
-      [elWidth]="256"
+      [elHeight]="previewHeight + 20"
+      [elWidth]="previewWidth"
+
+      [imgHeight]="previewHeight"
+
       [folderPath]="'lol'"
       [hubName]="'hi'"
-      [imgHeight]="144"
 
       [hoverScrub]="true"
       [showMeta]="true"
@@ -50,8 +57,8 @@
 
       style="display: inline-block"
       [ngStyle]="{
-          height: '184px',
-          width: '296px'
+          height: previewHeight + 40 + 'px',
+          width: previewWidth + 40 + 'px'
         }"
     ></app-thumbnail>
 

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
 
 import { environment } from './../environments/environment';
 
@@ -12,10 +13,19 @@ import { ImageElement, VideoClickEmit } from './interfaces';
 })
 export class AppComponent implements OnInit {
 
+  @ViewChild(VirtualScrollerComponent, { static: false }) virtualScroller: VirtualScrollerComponent;
+
   items: ImageElement[]; // ImageElement[]
   searchString: string = '';
   websocket: WebSocket;
   socketConnected: boolean = false;
+
+  compactView = false;
+
+  previewWidth: number = 256;
+  previewHeight: number = 144;
+
+  currentImgsPerRow: number = 2;
 
   constructor(
     private http: HttpClient
@@ -39,6 +49,8 @@ export class AppComponent implements OnInit {
       this.items = data;
     });
 
+    this.computePreviewWidth();
+
   }
 
   getImageList(): any {
@@ -53,6 +65,43 @@ export class AppComponent implements OnInit {
       .subscribe((response) => {
         console.log(response);
       });
+  }
+
+  zoomIn() {
+    if (this.currentImgsPerRow > 1) {
+      this.currentImgsPerRow = this.currentImgsPerRow - 1;
+    }
+    this.virtualScroller.invalidateAllCachedMeasurements();
+    this.virtualScroller.refresh();
+    this.computePreviewWidth();
+    setTimeout(() => {
+      document.getElementById('scrollDiv').scrollTop = 0;
+    });
+  }
+
+  zoomOut() {
+    if (this.currentImgsPerRow < 6) {
+      this.currentImgsPerRow = this.currentImgsPerRow + 1;
+    }
+    this.virtualScroller.invalidateAllCachedMeasurements();
+    this.virtualScroller.refresh();
+    this.computePreviewWidth();
+    setTimeout(() => {
+      document.getElementById('scrollDiv').scrollTop = 0;
+    });
+  }
+
+  /**
+   * Computes the preview width for thumbnails view
+   */
+  public computePreviewWidth(): void {
+    // Subtract 14 -- it is a bit more than the scrollbar on the right
+    const galleryWidth = document.getElementById('scrollDiv').getBoundingClientRect().width;
+
+    const margin: number = (this.compactView ? 4 : 40);
+    this.previewWidth = (galleryWidth / this.currentImgsPerRow) - margin;
+
+    this.previewHeight = this.previewWidth * (9 / 16);
   }
 
   /**
