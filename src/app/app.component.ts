@@ -6,10 +6,13 @@ import { environment } from './../environments/environment';
 
 import { ImageElement, VideoClickEmit } from './interfaces';
 
+import { searchAnimation } from './animations';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [searchAnimation]
 })
 export class AppComponent implements OnInit {
 
@@ -20,7 +23,9 @@ export class AppComponent implements OnInit {
   websocket: WebSocket;
   socketConnected: boolean = false;
 
-  compactView = false;
+  compactView: boolean = false;
+
+  showSearch: boolean = false;
 
   previewWidth: number = 256;
   previewHeight: number = 144;
@@ -98,7 +103,7 @@ export class AppComponent implements OnInit {
     // Subtract 14 -- it is a bit more than the scrollbar on the right
     const galleryWidth = document.getElementById('scrollDiv').getBoundingClientRect().width;
 
-    const margin: number = (this.compactView ? 4 : 40);
+    const margin: number = (this.compactView ? 4 : 50);
     this.previewWidth = (galleryWidth / this.currentImgsPerRow) - margin;
 
     this.previewHeight = this.previewWidth * (9 / 16);
@@ -128,7 +133,7 @@ export class AppComponent implements OnInit {
     console.log('message received:');
     try {
       const data: ImageElement[] = JSON.parse(a.data);
-      this.items = data;
+      this.items = data.filter((element: ImageElement) => element.cleanName !== '*FOLDER*' );
     } catch (e) {
       console.log(e);
     }

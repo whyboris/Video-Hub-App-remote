@@ -1,13 +1,20 @@
+$menu-height: 50px;
+
 .buttons {
-  background-color: #aaaaaa;
-  border-bottom: 1px solid #777777;
+  background-color: #f9f9f9;
+  border-top: 1px solid #bbbbbb;
   box-sizing: border-box;
-  height: 30px;
+  display: flex;
+  height: $menu-height;
+  justify-content: space-between;
+  padding-top: 3px;
+  position: relative;
   width: 100vw;
+  z-index: 2;
 }
 
-.whole {
-  height: calc(100vh - 30px);
+.scroll-region {
+  height: calc(100vh - #{$menu-height});
   width: 100vw;
 }
 
@@ -16,31 +23,48 @@ virtual-scroller {
   height: 100%;
 }
 
-.search-input {
-  border-radius: 5px;
-  border: 1px solid #555555;
-  margin: 3px 5px 0 30px;
-  outline: none;
-  padding: 3px;
-  width: 100px;
-}
-
 button {
+  background-color: transparent;
   border-radius: 5px;
-  border: 1px solid #555555;
-  margin: 0 5px;
+  border: 0;
+  font-size: 20px;
+  margin: 0 20px;
   outline: none;
   padding: 2px 0;
   text-align: center;
-  width: 21px;
+  width: 40px;
 }
 
-.btn-refresh {
-  position: absolute;
-  right: 4px;
-  top: 4px;
+// button:disabled {
+//   border: 1px solid #888888;
+// }
+
+.bottom-of-scroller-spacer {
+  height: 160px;
 }
 
-button:disabled {
-  border: 1px solid #888888;
+.search-region {
+  background: #f9f9f9;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border: 1px solid #aaaaaa;
+  bottom: 49px;
+  height: 50px;
+  left: calc(50vw - 97px); // `.search-region` is 194px - so we want half
+  position: fixed;
+
+  .search-input {
+    border-radius: 5px;
+    border: 1px solid #555555;
+    font-size: 16px;
+    margin: 10px;
+    outline: none;
+    padding: 5px;
+    width: 120px;
+  }
+
+  button {
+    margin: 0;
+    transform: translate(-5px, 7px);
+  }
 }
