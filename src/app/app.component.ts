@@ -19,10 +19,11 @@ export class AppComponent implements OnInit {
   @ViewChild(VirtualScrollerComponent, { static: false }) virtualScroller: VirtualScrollerComponent;
   @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
 
-  compactView: boolean = true;
-  darkMode: boolean = false;
+  compactView: boolean = false;
   currentImgsPerRow: number = 2;
+  darkMode: boolean = false;
   items: ImageElement[]; // ImageElement[]
+  largerFont: boolean = true;
   previewHeight: number = 144;
   previewWidth: number = 256;
   searchString: string = '';

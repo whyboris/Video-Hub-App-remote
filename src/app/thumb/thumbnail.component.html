@@ -27,9 +27,9 @@
 
   <span
     *ngIf="!compactView"
+    class="title"
     [ngClass]="{ 'larger-font': largerFont }"
     [ngStyle]="{ color: darkMode ? '#BBBBBB' : '#000000' }"
-    class="title"
   >
     {{ video.cleanName }}
   </span>
