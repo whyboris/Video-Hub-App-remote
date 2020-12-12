@@ -1,6 +1,6 @@
 $menu-height: 50px;
 
-.buttons {
+.buttons-menu {
   background-color: #f9f9f9;
   border-top: 1px solid #bbbbbb;
   box-sizing: border-box;
@@ -11,6 +11,10 @@ $menu-height: 50px;
   position: relative;
   width: 100vw;
   z-index: 10;
+}
+
+.dark-mode {
+  background-color: #000000;
 }
 
 .scroll-region {
@@ -78,17 +82,25 @@ app-thumbnail {
   box-sizing: border-box;
   font-family: sans-serif;
   font-size: 16px;
-  height: calc(100vh - #{$menu-height});
+  // height: calc(100vh - #{$menu-height});
+  height: 300px;
+  border-top: 1px solid #666666;
   left: 0;
   padding: 20px;
   position: fixed;
-  top: 0;
+  bottom: $menu-height;
   width: 100vw;
   z-index: 5;
 
+  div {
+    margin: 0 0 20px;
+  }
+
   h1 {
+    font-size: 24px;
     text-align: center;
     color: #555555;
+    margin-top: 10px;
     margin-bottom: 30px;
   }
 

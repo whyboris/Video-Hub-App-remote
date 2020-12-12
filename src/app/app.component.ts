@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   @ViewChild(VirtualScrollerComponent, { static: false }) virtualScroller: VirtualScrollerComponent;
 
   compactView: boolean = true;
+  darkMode: boolean = false;
   currentImgsPerRow: number = 2;
   items: ImageElement[]; // ImageElement[]
   previewHeight: number = 144;
