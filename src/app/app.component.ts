@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
 
 import { environment } from './../environments/environment';
@@ -17,6 +17,7 @@ import { searchAnimation, settingsAnimation } from './animations';
 export class AppComponent implements OnInit {
 
   @ViewChild(VirtualScrollerComponent, { static: false }) virtualScroller: VirtualScrollerComponent;
+  @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
 
   compactView: boolean = true;
   darkMode: boolean = false;
@@ -111,6 +112,17 @@ export class AppComponent implements OnInit {
     this.compactView = !this.compactView;
     this.virtualScroller.invalidateAllCachedMeasurements();
     this.computePreviewWidth();
+  }
+
+  toggleSearch(): void {
+    this.showSearch = !this.showSearch;
+    if (this.showSearch) {
+      setTimeout(() => {
+        this.searchInput.nativeElement.focus();
+      }, 100);
+    } else {
+      this.searchString = '';
+    }
   }
 
   /**

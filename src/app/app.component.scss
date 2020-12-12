@@ -150,3 +150,16 @@ app-thumbnail {
     color: #cccccc;
   }
 }
+
+.settings-svg {
+  svg {
+    transition-duration: 300ms;
+    transition-property: transform;
+  }
+}
+
+.animate-settings-button {
+  svg {
+    transform: rotate(90deg);
+  }
+}
