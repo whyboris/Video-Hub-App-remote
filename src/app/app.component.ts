@@ -97,10 +97,10 @@ export class AppComponent implements OnInit {
    * Computes the preview width for thumbnails view
    */
   computePreviewWidth(): void {
-    // Subtract 14 -- it is a bit more than the scrollbar on the right
-    const galleryWidth = document.getElementById('scrollDiv').getBoundingClientRect().width;
+    const galleryWidth = document.getElementById('scrollDiv').getBoundingClientRect().width - 12;
+    // note: we subtract 12 -- it is a bit more than the scrollbar on the right ----------- ^^^^
 
-    const margin: number = (this.compactView ? 10 : 50);
+    const margin: number = (this.compactView ? 4 : 40);
     this.previewWidth = (galleryWidth / this.currentImgsPerRow) - margin;
 
     this.previewHeight = this.previewWidth * (9 / 16);
