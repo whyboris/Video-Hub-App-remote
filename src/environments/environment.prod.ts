@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  imageList: './hello',
+  imageList: './hub',
   imageRoutePrefix: './images/',
   openVideo: './open',
 };

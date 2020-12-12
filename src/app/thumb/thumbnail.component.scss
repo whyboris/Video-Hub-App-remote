@@ -3,8 +3,6 @@
   margin: 20px 20px 0;
   overflow: hidden;
   position: relative;
-  transition: 300ms;
-  transition-property: height;
 }
 
 .title {
@@ -13,14 +11,12 @@
   display: -webkit-box;
   font-family: sans-serif;
   font-size: 12px;
-  margin: 6px 2px 0px;
+  margin: 6px 0 0;
   max-height: 54px;
   overflow: hidden;
   position: absolute;
   text-align: left;
   text-overflow: ellipsis;
-  transition-property: font-size;
-  transition: 300ms;
   width: 100%;
   word-wrap: break-word;
 }
@@ -31,4 +27,27 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
+}
+
+.compact-margins {
+  margin: 0 2px;
+}
+
+.not-connected {
+  background-color: yellow;
+  border: 1px solid #999900;
+  border-radius: 5px;
+  display: block;
+  height: 10px;
+  left: 4px;
+  opacity: 0.5;
+  position: absolute;
+  top: 4px;
+  width: 10px;
+  z-index: 2;
+}
+
+.larger-font {
+  font-size: 16px;
+  -webkit-line-clamp: 2;
 }

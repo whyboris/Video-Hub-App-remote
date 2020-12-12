@@ -1,32 +1,9 @@
-<div class="buttons">
-
-  <button [disabled]="currentImgsPerRow === 1" (click)="zoomIn()">+</button>
-
-  <button (click)="zoomOut()">-</button>
-
-  <input
-    [(ngModel)]="searchString"
-    class="search-input"
-    placeholder="search"
-  >
-  <button (click)="searchString = ''">x</button>
-
-
-  <button
-    (click)="getLatestData()"
-    class="btn-refresh"
-    [disabled]="!socketConnected"
-  >
-    #
-  </button>
-
-</div>
-
-<div class="whole">
+<div class="scroll-region">
 
   <virtual-scroller
     #scroll
     id="scrollDiv"
+    [ngClass]="{ 'dark-mode': darkMode }"
     [items]="items | searchPipe : searchString"
   >
     <app-thumbnail
@@ -36,9 +13,9 @@
 
       [video]="item"
 
-      [connected]="true"
+      [connected]="item.connected"
 
-      [elHeight]="previewHeight + 20"
+      [elHeight]="previewHeight + (compactView ? 0 : 50)"
       [elWidth]="previewWidth"
 
       [imgHeight]="previewHeight"
@@ -49,19 +26,108 @@
       [hoverScrub]="true"
       [showMeta]="true"
 
-      [compactView]="false"
-      [darkMode]="false"
-      [largerFont]="false"
+      [compactView]="compactView"
+      [darkMode]="darkMode"
+
+      [largerFont]="largerFont"
       [returnToFirstScreenshot]="false"
       [thumbAutoAdvance]="false"
 
-      style="display: inline-block"
       [ngStyle]="{
-          height: previewHeight + 40 + 'px',
-          width: previewWidth + 40 + 'px'
+          height: previewHeight + (compactView ? 4 : 70) + 'px',
+          width: previewWidth + (compactView ? 4 : 40) + 'px'
         }"
     ></app-thumbnail>
 
+    <div class="bottom-of-scroller-spacer"></div>
+
   </virtual-scroller>
 
+</div>
+
+<!-- UI BUTTONS ON THE BOTTOM -->
+
+<div
+  class="buttons-menu"
+  [ngClass]="{ 'buttons-menu-dark-mode': darkMode }"
+>
+
+  <button (click)="zoomOut()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>  </button>
+
+  <button [disabled]="currentImgsPerRow === 1" (click)="zoomIn()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>  </button>
+
+  <button (click)="toggleSearch()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+  </button>
+
+  <button (click)="viewingSettings = !viewingSettings" class="settings-svg" [ngClass]="{ 'animate-settings-button': viewingSettings }">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+  </button>
+
+  <button
+    (click)="getLatestData()"
+    class="btn-refresh"
+    [disabled]="!socketConnected"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+  </button>
+
+</div>
+
+<!-- SEARCH MODAL TRAY -->
+
+<div
+  *ngIf="showSearch"
+  class="search-region"
+  [ngClass]="{ 'search-region-dark-mode': darkMode }"
+  @searchAnimation
+>
+  <input
+    #searchInput
+    [(ngModel)]="searchString"
+    class="search-input"
+    placeholder="search"
+  >
+  <button (click)="searchString = ''" [disabled]="searchString === ''">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+  </button>
+</div>
+
+<!-- SETTINGS MENU -->
+<div
+  *ngIf="viewingSettings"
+  class="settings-menu"
+  [ngClass]="{ 'settings-menu-dark-mode': darkMode }"
+  @settingsAnimation
+>
+
+  <h1>Settings</h1>
+
+  <div>
+    <button (click)="toggleCompactView()" [ngClass]="{ toggled: compactView }">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>
+    </button>
+    <span>
+      Compact view
+    </span>
+  </div>
+
+  <div>
+    <button (click)="darkMode = !darkMode" [ngClass]="{ toggled: darkMode }">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
+    <span>
+      Dark Mode
+    </span>
+  </div>
+
+  <div>
+    <button (click)="largerFont = !largerFont" [ngClass]="{ toggled: largerFont }">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-type"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>    </button>
+    <span>
+      Larger text
+    </span>
+  </div>
 </div>

@@ -1,13 +1,34 @@
-.buttons {
-  background-color: #aaaaaa;
-  border-bottom: 1px solid #777777;
+$menu-height: 50px;
+$settings-height: 300px; // also update `settingsAnimation`
+
+.buttons-menu {
+  background-color: #f9f9f9;
+  border-top: 1px solid #bbbbbb;
   box-sizing: border-box;
-  height: 30px;
+  display: flex;
+  height: $menu-height;
+  justify-content: space-between;
+  padding-top: 3px;
+  position: relative;
   width: 100vw;
+  z-index: 10;
 }
 
-.whole {
-  height: calc(100vh - 30px);
+.buttons-menu-dark-mode {
+  background: #333333;
+  border-top: 1px solid #555555;
+
+  svg {
+    stroke: white;
+  }
+}
+
+.dark-mode {
+  background-color: #000000;
+}
+
+.scroll-region {
+  height: calc(100vh - #{$menu-height});
   width: 100vw;
 }
 
@@ -16,31 +37,129 @@ virtual-scroller {
   height: 100%;
 }
 
-.search-input {
-  border-radius: 5px;
-  border: 1px solid #555555;
-  margin: 3px 5px 0 30px;
-  outline: none;
-  padding: 3px;
-  width: 100px;
-}
-
 button {
+  background-color: transparent;
   border-radius: 5px;
-  border: 1px solid #555555;
-  margin: 0 5px;
+  border: 0;
+  font-size: 20px;
+  margin: 0 20px;
   outline: none;
   padding: 2px 0;
   text-align: center;
-  width: 21px;
+  width: 40px;
 }
 
-.btn-refresh {
-  position: absolute;
-  right: 4px;
-  top: 4px;
+app-thumbnail {
+  display: inline-block;
 }
 
-button:disabled {
-  border: 1px solid #888888;
+// button:disabled {
+//   border: 1px solid #888888;
+// }
+
+.bottom-of-scroller-spacer {
+  height: 160px;
+}
+
+.search-region {
+  background: #f9f9f9;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border: 1px solid #aaaaaa;
+  bottom: 49px;
+  height: 50px;
+  left: calc(50vw - 97px); // `.search-region` is 194px - so we want half
+  position: fixed;
+
+  .search-input {
+    border-radius: 5px;
+    border: 1px solid #555555;
+    font-size: 16px;
+    margin: 10px;
+    outline: none;
+    padding: 5px;
+    width: 120px;
+  }
+
+  button {
+    margin: 0;
+    transform: translate(-5px, 7px);
+  }
+}
+
+.search-region-dark-mode {
+  background: #333333;
+  border: 1px solid #555555;
+
+  .search-input {
+    background-color: black;
+    color: white;
+  }
+}
+
+.settings-menu {
+  background-color: #eeeeee;
+  border-top: 1px solid #bbbbbb;
+  bottom: $menu-height;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 16px;
+  height: $settings-height;
+  left: 0;
+  padding: 20px;
+  position: fixed;
+  width: 100vw;
+  z-index: 5;
+
+  div {
+    margin: 0 0 20px;
+  }
+
+  h1 {
+    color: #555555;
+    font-size: 24px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  button {
+    vertical-align: middle;
+  }
+
+  .toggled {
+    svg {
+      stroke: #729aff
+    }
+  }
+}
+
+.settings-menu-dark-mode {
+  background-color: #222222;
+  border-top: 1px solid #333333;
+
+  h1 {
+    color: #aaaaaa;
+  }
+
+  svg {
+    stroke: #aaaaaa;
+  }
+
+  span {
+    color: #cccccc;
+  }
+}
+
+.settings-svg {
+  svg {
+    transition-duration: 300ms;
+    transition-property: transform;
+  }
+}
+
+.animate-settings-button {
+  svg {
+    transform: rotate(90deg);
+  }
 }

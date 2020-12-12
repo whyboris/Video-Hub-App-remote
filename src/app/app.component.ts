@@ -1,31 +1,36 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
 
 import { environment } from './../environments/environment';
 
 import { ImageElement, VideoClickEmit } from './interfaces';
 
+import { searchAnimation, settingsAnimation } from './animations';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [searchAnimation, settingsAnimation]
 })
 export class AppComponent implements OnInit {
 
   @ViewChild(VirtualScrollerComponent, { static: false }) virtualScroller: VirtualScrollerComponent;
+  @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
 
-  items: ImageElement[]; // ImageElement[]
-  searchString: string = '';
-  websocket: WebSocket;
-  socketConnected: boolean = false;
-
-  compactView = false;
-
-  previewWidth: number = 256;
-  previewHeight: number = 144;
-
+  compactView: boolean = false;
   currentImgsPerRow: number = 2;
+  darkMode: boolean = false;
+  items: ImageElement[]; // ImageElement[]
+  largerFont: boolean = true;
+  previewHeight: number = 144;
+  previewWidth: number = 256;
+  searchString: string = '';
+  showSearch: boolean = false;
+  socketConnected: boolean = false;
+  viewingSettings: boolean = false;
+  websocket: WebSocket;
 
   constructor(
     private http: HttpClient
@@ -94,14 +99,31 @@ export class AppComponent implements OnInit {
   /**
    * Computes the preview width for thumbnails view
    */
-  public computePreviewWidth(): void {
-    // Subtract 14 -- it is a bit more than the scrollbar on the right
-    const galleryWidth = document.getElementById('scrollDiv').getBoundingClientRect().width;
+  computePreviewWidth(): void {
+    const galleryWidth = document.getElementById('scrollDiv').getBoundingClientRect().width - 12;
+    // note: we subtract 12 -- it is a bit more than the scrollbar on the right ----------- ^^^^
 
     const margin: number = (this.compactView ? 4 : 40);
     this.previewWidth = (galleryWidth / this.currentImgsPerRow) - margin;
 
     this.previewHeight = this.previewWidth * (9 / 16);
+  }
+
+  toggleCompactView(): void {
+    this.compactView = !this.compactView;
+    this.virtualScroller.invalidateAllCachedMeasurements();
+    this.computePreviewWidth();
+  }
+
+  toggleSearch(): void {
+    this.showSearch = !this.showSearch;
+    if (this.showSearch) {
+      setTimeout(() => {
+        this.searchInput.nativeElement.focus();
+      }, 100);
+    } else {
+      this.searchString = '';
+    }
   }
 
   /**
@@ -128,7 +150,8 @@ export class AppComponent implements OnInit {
     console.log('message received:');
     try {
       const data: ImageElement[] = JSON.parse(a.data);
-      this.items = data;
+      this.items = data.filter((element: ImageElement) => element.cleanName !== '*FOLDER*' );
+      console.log(data[0]);
     } catch (e) {
       console.log(e);
     }
