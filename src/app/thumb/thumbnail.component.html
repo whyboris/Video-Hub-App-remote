@@ -25,7 +25,7 @@
   </div>
 
   <span
-    *ngIf="showMeta"
+    *ngIf="!compactView"
     [ngClass]="{ 'larger-font': largerFont }"
     [ngStyle]="{ color: darkMode ? '#BBBBBB' : '#000000' }"
     class="title"

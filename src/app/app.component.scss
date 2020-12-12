@@ -10,7 +10,7 @@ $menu-height: 50px;
   padding-top: 3px;
   position: relative;
   width: 100vw;
-  z-index: 2;
+  z-index: 10;
 }
 
 .scroll-region {
@@ -33,6 +33,10 @@ button {
   padding: 2px 0;
   text-align: center;
   width: 40px;
+}
+
+app-thumbnail {
+  display: inline-block;
 }
 
 // button:disabled {
@@ -67,4 +71,15 @@ button {
     margin: 0;
     transform: translate(-5px, 7px);
   }
+}
+
+.settings-menu {
+  background-color: #eeeeee;
+  height: calc(100vh - #{$menu-height});
+  left: 0;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 5;
 }

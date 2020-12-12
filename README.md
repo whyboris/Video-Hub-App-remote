@@ -9,3 +9,5 @@ The assets built with this repository are meant to be added into _Video Hub App_
 ### Notes
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
+
+While developing you might neet do [disable CORS](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf)

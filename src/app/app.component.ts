@@ -18,19 +18,16 @@ export class AppComponent implements OnInit {
 
   @ViewChild(VirtualScrollerComponent, { static: false }) virtualScroller: VirtualScrollerComponent;
 
-  items: ImageElement[]; // ImageElement[]
-  searchString: string = '';
-  websocket: WebSocket;
-  socketConnected: boolean = false;
-
-  compactView: boolean = false;
-
-  showSearch: boolean = false;
-
-  previewWidth: number = 256;
-  previewHeight: number = 144;
-
+  compactView: boolean = true;
   currentImgsPerRow: number = 2;
+  items: ImageElement[]; // ImageElement[]
+  previewHeight: number = 144;
+  previewWidth: number = 256;
+  searchString: string = '';
+  showSearch: boolean = false;
+  socketConnected: boolean = false;
+  viewingSettings: boolean = false;
+  websocket: WebSocket;
 
   constructor(
     private http: HttpClient
@@ -99,14 +96,20 @@ export class AppComponent implements OnInit {
   /**
    * Computes the preview width for thumbnails view
    */
-  public computePreviewWidth(): void {
+  computePreviewWidth(): void {
     // Subtract 14 -- it is a bit more than the scrollbar on the right
     const galleryWidth = document.getElementById('scrollDiv').getBoundingClientRect().width;
 
-    const margin: number = (this.compactView ? 4 : 50);
+    const margin: number = (this.compactView ? 10 : 50);
     this.previewWidth = (galleryWidth / this.currentImgsPerRow) - margin;
 
     this.previewHeight = this.previewWidth * (9 / 16);
+  }
+
+  toggleCompactView(): void {
+    this.compactView = !this.compactView;
+    this.virtualScroller.invalidateAllCachedMeasurements();
+    this.computePreviewWidth();
   }
 
   /**
