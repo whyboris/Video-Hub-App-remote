@@ -3,8 +3,6 @@
   margin: 20px 20px 0;
   overflow: hidden;
   position: relative;
-  transition: 300ms;
-  transition-property: height;
 }
 
 .title {
@@ -19,8 +17,6 @@
   position: absolute;
   text-align: left;
   text-overflow: ellipsis;
-  transition-property: font-size;
-  transition: 300ms;
   width: 100%;
   word-wrap: break-word;
 }

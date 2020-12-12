@@ -6,13 +6,13 @@ import { environment } from './../environments/environment';
 
 import { ImageElement, VideoClickEmit } from './interfaces';
 
-import { searchAnimation } from './animations';
+import { searchAnimation, settingsAnimation } from './animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [searchAnimation]
+  animations: [searchAnimation, settingsAnimation]
 })
 export class AppComponent implements OnInit {
 

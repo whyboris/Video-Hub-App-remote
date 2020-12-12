@@ -1,4 +1,5 @@
 $menu-height: 50px;
+$settings-height: 300px; // also update `settingsAnimation`
 
 .buttons-menu {
   background-color: #f9f9f9;
@@ -98,12 +99,12 @@ app-thumbnail {
 
 .settings-menu {
   background-color: #eeeeee;
-  border-top: 1px solid #666666;
+  border-top: 1px solid #bbbbbb;
   bottom: $menu-height;
   box-sizing: border-box;
   font-family: sans-serif;
   font-size: 16px;
-  height: 300px;
+  height: $settings-height;
   left: 0;
   padding: 20px;
   position: fixed;
