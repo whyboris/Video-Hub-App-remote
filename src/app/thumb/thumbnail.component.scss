@@ -36,3 +36,17 @@
 .compact-margins {
   margin: 0 2px;
 }
+
+.not-connected {
+  background-color: yellow;
+  border: 1px solid #999900;
+  border-radius: 5px;
+  display: block;
+  height: 10px;
+  left: 4px;
+  opacity: 0.5;
+  position: absolute;
+  top: 4px;
+  width: 10px;
+  z-index: 2;
+}

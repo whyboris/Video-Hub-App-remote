@@ -132,15 +132,14 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
    * @param $event
    */
   handleClick($event: any) {
-    if (this.hoverScrub) { // TODO -- change to `this.playFromClickedLocation` or something
+    // TODO -- handle: this.hoverScrub
+    // and then change name to `this.playFromClickedLocation` or something
 
+    if (this.connected) {
       const cursorX = $event.layerX;
-
       this.indexToShow = Math.floor(cursorX * (this.video.screens / this.containerWidth));
       this.videoClick.emit({ video: this.video, thumbIndex: this.indexToShow });
     }
-
-
   }
 
   ngOnDestroy() {

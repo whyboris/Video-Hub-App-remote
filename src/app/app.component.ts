@@ -137,6 +137,7 @@ export class AppComponent implements OnInit {
     try {
       const data: ImageElement[] = JSON.parse(a.data);
       this.items = data.filter((element: ImageElement) => element.cleanName !== '*FOLDER*' );
+      console.log(data[0]);
     } catch (e) {
       console.log(e);
     }
