@@ -177,7 +177,6 @@ export class AppComponent implements OnInit {
   onClose = (): void => {
     console.log('CLOSING SOCKET');
     this.socketConnected = false;
-    // make a message appear with a button "reconnect"
   }
 
   /**

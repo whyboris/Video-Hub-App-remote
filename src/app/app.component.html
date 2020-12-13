@@ -141,11 +141,15 @@
   (click)="refresh()"
   @errorAppear
 >
-  <span>
+  <span class="error">
     Not connected:
   </span>
   <br>
-  <b>{{ hostname }}</b>:{{ port }}
+  <span class="monospace">
+    {{ hostname }}<b>:</b>{{ port }}
+  </span>
   <br>
-  click to reload
+  <span class="note">
+    click to reload
+  </span>
 </div>

@@ -190,14 +190,25 @@ app-thumbnail {
   border: 1px solid #bbbbbb;
   bottom: 60px;
   font-family: sans-serif;
-  line-height: 26px;
+  line-height: 36px;
   padding: 20px 30px;
   position: fixed;
   right: 10px;
   text-align: center;
   z-index: 15;
 
-  span {
+  .error {
     color: #ff6666;
+  }
+
+  .note {
+    color: #888888;
+  }
+
+  .monospace {
+    font-family: monospace;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px;
   }
 }
