@@ -29,3 +29,19 @@ export const settingsAnimation = trigger('settingsAnimation', [
     ]
   )]
 );
+
+export const errorAppear = trigger('errorAppear', [
+  transition(
+    ':enter', [
+      style({ opacity: 0 }),
+      animate('300ms 300ms ease', style({ opacity: 1 }))
+      // add delay:  ^^^^^ before the error appears
+    ]
+  ),
+  transition(
+    ':leave', [
+      style({ opacity: 1 }),
+      animate('300ms ease', style({ opacity: 0 }))
+    ]
+  )]
+);

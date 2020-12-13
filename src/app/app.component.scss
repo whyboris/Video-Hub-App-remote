@@ -35,6 +35,23 @@ $settings-height: 300px; // also update `settingsAnimation`
 virtual-scroller {
   background-color: #eeeeee;
   height: 100%;
+  overflow-y: scroll !important;
+
+  // FUCK mobile safari - hiding scroll bars all the time
+  // and not showing them even when you request it
+  // and then not allowing users to use them to scroll
+  // even when they finally appear
+  // FUCK YOU APPLE
+
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    -webkit-overflow-scrolling: auto;
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888888;
+  }
 }
 
 button {
@@ -53,10 +70,6 @@ app-thumbnail {
   display: inline-block;
 }
 
-// button:disabled {
-//   border: 1px solid #888888;
-// }
-
 .bottom-of-scroller-spacer {
   height: 160px;
 }
@@ -68,8 +81,9 @@ app-thumbnail {
   border: 1px solid #aaaaaa;
   bottom: 49px;
   height: 50px;
-  left: calc(50vw - 97px); // `.search-region` is 194px - so we want half
+  left: calc(50vw - 100px); // `.search-region` is 200px - so we want half
   position: fixed;
+  width: 200px;
 
   .search-input {
     border-radius: 5px;
@@ -78,7 +92,7 @@ app-thumbnail {
     margin: 10px;
     outline: none;
     padding: 5px;
-    width: 120px;
+    width: 128px;
   }
 
   button {
@@ -161,5 +175,50 @@ app-thumbnail {
 .animate-settings-button {
   svg {
     transform: rotate(90deg);
+  }
+}
+
+.reload-page {
+  svg {
+    stroke: #ff6666;
+  }
+}
+
+.connection-error-modal {
+  background: #f9f9f9;
+  border-radius: 10px;
+  border: 1px solid #bbbbbb;
+  bottom: 60px;
+  font-family: sans-serif;
+  line-height: 36px;
+  padding: 20px 30px;
+  position: fixed;
+  right: 10px;
+  text-align: center;
+  z-index: 15;
+
+  .error {
+    color: #ff6666;
+  }
+
+  .note {
+    color: #888888;
+  }
+
+  .monospace {
+    font-family: monospace;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px;
+  }
+}
+
+.connection-error-modal-dark-mode {
+  background-color: #333333;
+  border: 1px solid #555555;
+  color: white;
+
+  .note {
+    color: #aaaaaa;
   }
 }
