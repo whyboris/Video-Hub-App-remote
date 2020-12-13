@@ -69,25 +69,27 @@ export class AppComponent implements OnInit {
   /**
    * Zoom in
    */
-  zoomIn() {
+  zoomIn(): void {
     if (this.currentImgsPerRow > 1) {
       this.currentImgsPerRow = this.currentImgsPerRow - 1;
+      this.updateAfterZoom();
     }
-    this.virtualScroller.invalidateAllCachedMeasurements();
-    this.virtualScroller.refresh();
-    this.computePreviewWidth();
-    setTimeout(() => {
-      document.getElementById('scrollDiv').scrollTop = 0;
-    });
   }
 
   /**
    * Zoom out
    */
-  zoomOut() {
+  zoomOut(): void {
     if (this.currentImgsPerRow < 6) {
       this.currentImgsPerRow = this.currentImgsPerRow + 1;
+      this.updateAfterZoom();
     }
+  }
+
+  /**
+   * Refresh virtualScroller, width measurements, and update the view
+   */
+  updateAfterZoom(): void {
     this.virtualScroller.invalidateAllCachedMeasurements();
     this.virtualScroller.refresh();
     this.computePreviewWidth();
