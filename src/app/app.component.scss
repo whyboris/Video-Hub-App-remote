@@ -212,3 +212,13 @@ app-thumbnail {
     margin: 10px;
   }
 }
+
+.connection-error-modal-dark-mode {
+  background-color: #333333;
+  border: 1px solid #555555;
+  color: white;
+
+  .note {
+    color: #aaaaaa;
+  }
+}
