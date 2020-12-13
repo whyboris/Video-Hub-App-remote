@@ -15,7 +15,7 @@ export class SearchPipe implements PipeTransform {
   transform(finalArray: ImageElement[], searchString: string): ImageElement[] {
 
     if (searchString) {
-      return finalArray.filter(element => element.cleanName.includes(searchString));
+      return finalArray.filter(element => element.cleanName.toLowerCase().includes(searchString.toLowerCase()));
     } else {
       return finalArray;
     }

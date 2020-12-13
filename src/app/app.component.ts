@@ -38,24 +38,29 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
+    this.setUpSocket();
+
+    // Let's only get data from socket
+    // this.getImageList().subscribe((data: ImageElement[]) => {
+    //   console.log(data);
+    //   this.items = data;
+    // });
+
+    this.computePreviewWidth();
+
+  }
+
+  setUpSocket(): void {
     // 'ws://localhost:8080' or for testing 'wss://echo.websocket.org'
     const socketAddress: string = 'ws://' + window.location.hostname + ':8080';
 
     this.websocket = new WebSocket(socketAddress);
-    this.websocket.onopen =    (event) => { this.onOpen(event)    };
+    this.websocket.onopen =    this.onOpen;
     this.websocket.onclose =   (event) => { this.onClose(event)   };
     this.websocket.onmessage = (event) => { this.onMessage(event) };
     this.websocket.onerror =   (event) => { this.onError(event)   };
 
     console.log('fetching data!');
-
-    this.getImageList().subscribe((data: ImageElement[]) => {
-      console.log(data);
-      this.items = data;
-    });
-
-    this.computePreviewWidth();
-
   }
 
   getImageList(): any {
@@ -130,17 +135,23 @@ export class AppComponent implements OnInit {
    * Request from server the current gallery view
    */
   getLatestData() {
-    this.websocket.send('refresh-request'); // request
+
+    if (this.socketConnected) {
+      console.log(this.websocket.readyState);
+      this.websocket.send('refresh-request'); // request
+    } else {
+      location.reload();
+    }
+
   }
 
   /**
    * When socket connection succeeds
    */
-  onOpen(a) {
+  onOpen = () => {
     console.log('socket opened:');
-    console.log(a);
     this.socketConnected = true;
-    this.websocket.send('hi');
+    this.getLatestData();
   }
 
   /**
