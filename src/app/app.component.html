@@ -88,7 +88,6 @@
   @searchAnimation
 >
   <input
-    #searchInput
     [(ngModel)]="searchString"
     class="search-input"
     placeholder="search"
@@ -134,11 +133,6 @@
     </span>
   </div>
 
-  <div *ngIf="!socketConnected" class="not-connected-text">
-    not connected
-    <br>
-    click to reload
-  </div>
 </div>
 
 <div
@@ -151,9 +145,7 @@
     Not connected:
   </span>
   <br>
-  <b>
-    {{ temp }}
-  </b>
+  <b>{{ hostname }}</b>:{{ port }}
   <br>
   click to reload
 </div>

@@ -14,7 +14,6 @@ import { errorAppear, searchAnimation, settingsAnimation } from './animations';
 export class AppComponent implements OnInit {
 
   @ViewChild(VirtualScrollerComponent, { static: false }) virtualScroller: VirtualScrollerComponent;
-  @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
 
   compactView: boolean = false;
   currentImgsPerRow: number = 2;
@@ -29,7 +28,8 @@ export class AppComponent implements OnInit {
   viewingSettings: boolean = false;
   websocket: WebSocket;
 
-  temp: string = window.location.hostname;
+  hostname: string = window.location.hostname;
+  port: string = window.location.port;
 
   constructor() { }
 
@@ -123,11 +123,7 @@ export class AppComponent implements OnInit {
    */
   toggleSearch(): void {
     this.showSearch = !this.showSearch;
-    if (this.showSearch) {
-      setTimeout(() => {
-        this.searchInput.nativeElement.focus();
-      }, 100);
-    } else {
+    if (!this.showSearch) {
       this.searchString = '';
     }
   }
