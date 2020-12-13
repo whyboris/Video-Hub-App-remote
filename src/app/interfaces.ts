@@ -4,6 +4,15 @@ export interface VideoClickEmit {
   thumbIndex: number;
 }
 
+type SocketMessageType = 'open-file' | 'refresh-request';
+
+export interface SocketMessage {
+  type: SocketMessageType;
+  data?: any;
+}
+
+// Inherited directly from `Video Hub App` repository
+
 export interface ImageElement {
   cleanName: string;             // file name cleaned of dots, underscores,and file extension; for searching. Can be *FOLDER* sometimes
   duration: number;              // number of seconds - duration of film

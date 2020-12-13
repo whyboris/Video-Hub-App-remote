@@ -1,10 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
 
-import { environment } from './../environments/environment';
-
-import { ImageElement, VideoClickEmit } from './interfaces';
+import { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
 
 import { errorAppear, searchAnimation, settingsAnimation } from './animations';
 
@@ -34,9 +31,7 @@ export class AppComponent implements OnInit {
 
   temp: string = window.location.hostname;
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor() { }
 
   ngOnInit() {
     this.setUpSocket();
@@ -62,13 +57,13 @@ export class AppComponent implements OnInit {
    * @param videoClick
    */
   handleClick(videoClick: VideoClickEmit): void {
-    console.log(videoClick.video);
-    console.log('Clicked index:', videoClick.thumbIndex);
-
-    this.http.post(environment.openVideo, videoClick)
-      .subscribe((response) => {
-        console.log(response);
-      });
+    if (this.socketConnected) {
+      const msg: SocketMessage = {
+        type: 'open-file',
+        data: videoClick
+      };
+      this.websocket.send(JSON.stringify(msg));
+    }
   }
 
   /**
@@ -139,11 +134,12 @@ export class AppComponent implements OnInit {
 
   /**
    * Request from server the current gallery view
+   *      or refresh if not connected
    */
-  getLatestData(): void {
+  refresh(): void {
     if (this.socketConnected) {
-      console.log(this.websocket.readyState);
-      this.websocket.send('refresh-request'); // request
+      const msg: SocketMessage = { type: 'refresh-request' };
+      this.websocket.send(JSON.stringify(msg));
     } else {
       location.reload();
     }
@@ -159,7 +155,7 @@ export class AppComponent implements OnInit {
   onOpen = (): void => {
     console.log('socket opened:');
     this.socketConnected = true;
-    this.getLatestData();
+    this.refresh();
   }
 
   /**
