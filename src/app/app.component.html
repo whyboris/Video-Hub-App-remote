@@ -140,3 +140,20 @@
     click to reload
   </div>
 </div>
+
+<div
+  *ngIf="!socketConnected"
+  class="connection-error-modal"
+  (click)="getLatestData()"
+  @errorAppear
+>
+  <span>
+    Not connected:
+  </span>
+  <br>
+  <b>
+    {{ temp }}
+  </b>
+  <br>
+  click to reload
+</div>

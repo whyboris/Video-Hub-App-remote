@@ -35,6 +35,23 @@ $settings-height: 300px; // also update `settingsAnimation`
 virtual-scroller {
   background-color: #eeeeee;
   height: 100%;
+  overflow-y: scroll !important;
+
+  // FUCK mobile safari - hiding scroll bars all the time
+  // and not showing them even when you request it
+  // and then not allowing users to use them to scroll
+  // even when they finally appear
+  // FUCK YOU APPLE
+
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    -webkit-overflow-scrolling: auto;
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888888;
+  }
 }
 
 button {
@@ -177,4 +194,23 @@ app-thumbnail {
   position: absolute;
   right: 10px;
   text-align: right;
+}
+
+.connection-error-modal {
+  background: #f9f9f9;
+  border-radius: 10px;
+  border: 1px solid #bbbbbb;
+  // left: 50vw;
+  right: 10px;
+  padding: 20px 30px;
+  line-height: 26px;
+  position: fixed;
+  bottom: 60px;
+  text-align: center;
+  // transform: translate(-50%, 0);
+  z-index: 15;
+
+  span {
+    color: #ff6666;
+  }
 }

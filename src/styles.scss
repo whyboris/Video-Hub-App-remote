@@ -3,11 +3,6 @@ body {
   user-select: none;
 }
 
-body ::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 10px;
-}
-
-body ::-webkit-scrollbar-thumb {
-  background-color: #888888;
+body {
+  overflow: hidden;
 }

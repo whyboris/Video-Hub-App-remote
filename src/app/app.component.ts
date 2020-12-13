@@ -6,13 +6,13 @@ import { environment } from './../environments/environment';
 
 import { ImageElement, VideoClickEmit } from './interfaces';
 
-import { searchAnimation, settingsAnimation } from './animations';
+import { errorAppear, searchAnimation, settingsAnimation } from './animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [searchAnimation, settingsAnimation]
+  animations: [errorAppear, searchAnimation, settingsAnimation]
 })
 export class AppComponent implements OnInit {
 
@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
   socketConnected: boolean = false;
   viewingSettings: boolean = false;
   websocket: WebSocket;
+
+  temp: string = window.location.hostname;
 
   constructor(
     private http: HttpClient
@@ -135,14 +137,12 @@ export class AppComponent implements OnInit {
    * Request from server the current gallery view
    */
   getLatestData() {
-
     if (this.socketConnected) {
       console.log(this.websocket.readyState);
       this.websocket.send('refresh-request'); // request
     } else {
       location.reload();
     }
-
   }
 
   /**
