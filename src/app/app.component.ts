@@ -57,12 +57,10 @@ export class AppComponent implements OnInit {
     const socketAddress: string = 'ws://' + window.location.hostname + ':8080';
 
     this.websocket = new WebSocket(socketAddress);
-    this.websocket.onopen =    this.onOpen;
-    this.websocket.onclose =   (event) => { this.onClose(event)   };
-    this.websocket.onmessage = (event) => { this.onMessage(event) };
-    this.websocket.onerror =   (event) => { this.onError(event)   };
-
-    console.log('fetching data!');
+    this.websocket.onopen = this.onOpen;
+    this.websocket.onclose = this.onClose;
+    this.websocket.onmessage = this.onMessage;
+    this.websocket.onerror = this.onError;
   }
 
   getImageList(): any {
@@ -136,7 +134,7 @@ export class AppComponent implements OnInit {
   /**
    * Request from server the current gallery view
    */
-  getLatestData() {
+  getLatestData(): void {
     if (this.socketConnected) {
       console.log(this.websocket.readyState);
       this.websocket.send('refresh-request'); // request
@@ -145,10 +143,14 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // ===============================================================================================
+  // Web socket event handlers
+  // -----------------------------------------------------------------------------------------------
+
   /**
    * When socket connection succeeds
    */
-  onOpen = () => {
+  onOpen = (): void => {
     console.log('socket opened:');
     this.socketConnected = true;
     this.getLatestData();
@@ -156,24 +158,24 @@ export class AppComponent implements OnInit {
 
   /**
    * When a message arrives via socket connection
+   * @param msg - object with `data` that is a JSON stringified `ImageElement[]`
    */
-  onMessage(a) {
-    console.log('message received:');
+  onMessage = (msg: MessageEvent<string>): void => {
+    // console.log('message received:');
     try {
-      const data: ImageElement[] = JSON.parse(a.data);
+      const data: ImageElement[] = JSON.parse(msg.data);
       this.items = data.filter((element: ImageElement) => element.cleanName !== '*FOLDER*' );
-      console.log(data[0]);
+      // console.log(data[0]);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 
   /**
    * When socket connection closes
    */
-  onClose(a) {
+  onClose = (): void => {
     console.log('CLOSING SOCKET');
-    console.log(a);
     this.socketConnected = false;
     // make a message appear with a button "reconnect"
   }
@@ -181,9 +183,8 @@ export class AppComponent implements OnInit {
   /**
    * When socket connection errors out
    */
-  onError(a) {
+  onError = (): void => {
     console.log('ERROR IN CONNECTION');
-    console.log(a);
     this.socketConnected = false;
   }
 
