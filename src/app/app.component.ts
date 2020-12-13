@@ -39,19 +39,13 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.setUpSocket();
-
-    // Let's only get data from socket
-    // this.getImageList().subscribe((data: ImageElement[]) => {
-    //   console.log(data);
-    //   this.items = data;
-    // });
-
     this.computePreviewWidth();
-
   }
 
+  /**
+   * Create a new socket connection, attach the four socket events to appropriate methods
+   */
   setUpSocket(): void {
     // 'ws://localhost:8080' or for testing 'wss://echo.websocket.org'
     const socketAddress: string = 'ws://' + window.location.hostname + ':8080';
@@ -63,10 +57,10 @@ export class AppComponent implements OnInit {
     this.websocket.onerror = this.onError;
   }
 
-  getImageList(): any {
-    return this.http.get(environment.imageList);
-  }
-
+  /**
+   * Handle click on video - send POST request to server
+   * @param videoClick
+   */
   handleClick(videoClick: VideoClickEmit): void {
     console.log(videoClick.video);
     console.log('Clicked index:', videoClick.thumbIndex);
@@ -77,6 +71,9 @@ export class AppComponent implements OnInit {
       });
   }
 
+  /**
+   * Zoom in
+   */
   zoomIn() {
     if (this.currentImgsPerRow > 1) {
       this.currentImgsPerRow = this.currentImgsPerRow - 1;
@@ -89,6 +86,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Zoom out
+   */
   zoomOut() {
     if (this.currentImgsPerRow < 6) {
       this.currentImgsPerRow = this.currentImgsPerRow + 1;
@@ -114,12 +114,18 @@ export class AppComponent implements OnInit {
     this.previewHeight = this.previewWidth * (9 / 16);
   }
 
+  /**
+   * Toggle compact view on/off
+   */
   toggleCompactView(): void {
     this.compactView = !this.compactView;
     this.virtualScroller.invalidateAllCachedMeasurements();
     this.computePreviewWidth();
   }
 
+  /**
+   * Toggle search tray on/off
+   */
   toggleSearch(): void {
     this.showSearch = !this.showSearch;
     if (this.showSearch) {
