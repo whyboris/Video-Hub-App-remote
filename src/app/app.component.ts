@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   port: string = window.location.port;
 
   constructor(
-    private platform: Platform
+    public platform: Platform
   ) { }
 
   ngOnInit() {
@@ -50,6 +50,11 @@ export class AppComponent implements OnInit {
    */
   showInstallInstructions(): void {
     if (this.platform.IOS) {
+      const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+      if (!isInStandaloneMode) {
+        this.showInstructions = true;
+      }
+    } else if (this.platform.ANDROID) {
       const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
       if (!isInStandaloneMode) {
         this.showInstructions = true;
