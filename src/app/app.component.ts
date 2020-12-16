@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   port: string = window.location.port;
 
   constructor(
-    private platform: Platform
+    public platform: Platform
   ) { }
 
   ngOnInit() {
