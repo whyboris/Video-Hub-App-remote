@@ -222,3 +222,46 @@ app-thumbnail {
     color: #aaaaaa;
   }
 }
+
+.ios-install-instructions {
+  background: white;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  left: 5vw;
+  padding: 20px;
+  position: fixed;
+  top: 50px;
+  width: 90vw;
+
+  svg {
+    vertical-align: sub;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  p {
+    line-height: 26px;
+  }
+
+  ol {
+    margin: 20px 0;
+
+    li {
+      margin: 15px 0 0;
+      line-height: 26px;
+    }
+  }
+
+  button {
+    margin: 0;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+}

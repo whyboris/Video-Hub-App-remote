@@ -1,4 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Platform } from '@angular/cdk/platform';
+
 import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
 
 import { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
@@ -23,6 +25,7 @@ export class AppComponent implements OnInit {
   previewHeight: number = 144;
   previewWidth: number = 256;
   searchString: string = '';
+  showInstructions: boolean = false;
   showSearch: boolean = false;
   socketConnected: boolean = false;
   viewingSettings: boolean = false;
@@ -31,11 +34,27 @@ export class AppComponent implements OnInit {
   hostname: string = window.location.hostname;
   port: string = window.location.port;
 
-  constructor() { }
+  constructor(
+    private platform: Platform
+  ) { }
 
   ngOnInit() {
     this.setUpSocket();
     this.computePreviewWidth();
+    this.showInstallInstructions();
+  }
+
+  /**
+   * If iOS browser, show user how to install the app
+   * otherwise do nothing
+   */
+  showInstallInstructions(): void {
+    if (this.platform.IOS) {
+      const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+      if (!isInStandaloneMode) {
+        this.showInstructions = true;
+      }
+    }
   }
 
   /**
