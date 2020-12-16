@@ -54,6 +54,11 @@ export class AppComponent implements OnInit {
       if (!isInStandaloneMode) {
         this.showInstructions = true;
       }
+    } else if (this.platform.ANDROID) {
+      const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+      if (!isInStandaloneMode) {
+        this.showInstructions = true;
+      }
     }
   }
 
