@@ -4,7 +4,7 @@ export interface VideoClickEmit {
   thumbIndex: number;
 }
 
-type SocketMessageType = 'open-file' | 'refresh-request';
+type SocketMessageType = 'open-file' | 'refresh-request' | 'save-settings';
 
 export interface SocketMessage {
   type: SocketMessageType;

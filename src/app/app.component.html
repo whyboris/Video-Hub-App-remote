@@ -3,7 +3,7 @@
   <virtual-scroller
     #scroll
     id="scrollDiv"
-    [ngClass]="{ 'dark-mode': darkMode }"
+    [ngClass]="{ 'dark-mode': settings.darkMode }"
     [items]="items | searchPipe : searchString"
   >
     <app-thumbnail
@@ -15,7 +15,7 @@
 
       [connected]="item.connected"
 
-      [elHeight]="previewHeight + (compactView ? 0 : 50)"
+      [elHeight]="previewHeight + (settings.compactView ? 0 : 50)"
       [elWidth]="previewWidth"
 
       [imgHeight]="previewHeight"
@@ -26,16 +26,16 @@
       [hoverScrub]="true"
       [showMeta]="true"
 
-      [compactView]="compactView"
-      [darkMode]="darkMode"
+      [compactView]="settings.compactView"
+      [darkMode]="settings.darkMode"
 
-      [largerFont]="largerFont"
+      [largerFont]="settings.largerText"
       [returnToFirstScreenshot]="false"
       [thumbAutoAdvance]="false"
 
       [ngStyle]="{
-          height: previewHeight + (compactView ? 4 : 70) + 'px',
-          width: previewWidth + (compactView ? 4 : 40) + 'px'
+          height: previewHeight + (settings.compactView ? 4 : 70) + 'px',
+          width:  previewWidth  + (settings.compactView ? 4 : 40) + 'px'
         }"
     ></app-thumbnail>
 
@@ -49,13 +49,13 @@
 
 <div
   class="buttons-menu"
-  [ngClass]="{ 'buttons-menu-dark-mode': darkMode }"
+  [ngClass]="{ 'buttons-menu-dark-mode': settings.darkMode }"
 >
 
-  <button [disabled]="currentImgsPerRow === 6" (click)="zoomOut()">
+  <button [disabled]="settings.imgsPerRow === 6" (click)="zoomOut()">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>  </button>
 
-  <button [disabled]="currentImgsPerRow === 1" (click)="zoomIn()">
+  <button [disabled]="settings.imgsPerRow === 1" (click)="zoomIn()">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>  </button>
 
   <button (click)="toggleSearch()">
@@ -84,7 +84,7 @@
 <div
   *ngIf="showSearch"
   class="search-region"
-  [ngClass]="{ 'search-region-dark-mode': darkMode }"
+  [ngClass]="{ 'search-region-dark-mode': settings.darkMode }"
   @searchAnimation
 >
   <input
@@ -101,14 +101,14 @@
 <div
   *ngIf="viewingSettings"
   class="settings-menu"
-  [ngClass]="{ 'settings-menu-dark-mode': darkMode }"
+  [ngClass]="{ 'settings-menu-dark-mode': settings.darkMode }"
   @settingsAnimation
 >
 
   <h1>Settings</h1>
 
   <div>
-    <button (click)="toggleCompactView()" [ngClass]="{ toggled: compactView }">
+    <button (click)="toggleCompactView()" [ngClass]="{ toggled: settings.compactView }">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>
     </button>
     <span>
@@ -117,7 +117,7 @@
   </div>
 
   <div>
-    <button (click)="darkMode = !darkMode" [ngClass]="{ toggled: darkMode }">
+    <button (click)="toggleDarkMode()" [ngClass]="{ toggled: settings.darkMode }">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
     </button>
     <span>
@@ -126,7 +126,7 @@
   </div>
 
   <div>
-    <button (click)="largerFont = !largerFont" [ngClass]="{ toggled: largerFont }">
+    <button (click)="toggleFontSize()" [ngClass]="{ toggled: settings.largerText }">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-type"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>    </button>
     <span>
       Larger text
@@ -138,7 +138,7 @@
 <div
   *ngIf="!socketConnected"
   class="connection-error-modal"
-  [ngClass]="{ 'connection-error-modal-dark-mode': darkMode }"
+  [ngClass]="{ 'connection-error-modal-dark-mode': settings.darkMode }"
   (click)="refresh()"
   @errorAppear
 >
@@ -155,7 +155,7 @@
   </span>
 </div>
 
-<div *ngIf="showInstructions" class="ios-install-instructions" @errorAppear>
+<div *ngIf="showInstructions" class="install-instructions" @errorAppear>
 
   <button (click)="showInstructions = false">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
