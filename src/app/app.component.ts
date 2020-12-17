@@ -7,6 +7,20 @@ import { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
 
 import { errorAppear, searchAnimation, settingsAnimation } from './animations';
 
+interface RemoteSettings {
+  compactView: boolean;
+  darkMode: boolean;
+  imgsPerRow: number;
+  largerText: boolean;
+}
+
+type SocketMessageType = 'gallery' | 'settings';
+
+interface IncomingMessage {
+  type: SocketMessageType;
+  data: RemoteSettings | ImageElement[];
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,11 +31,15 @@ export class AppComponent implements OnInit {
 
   @ViewChild(VirtualScrollerComponent, { static: false }) virtualScroller: VirtualScrollerComponent;
 
-  compactView: boolean = false;
-  currentImgsPerRow: number = 2;
-  darkMode: boolean = false;
+  settings: RemoteSettings = {
+    compactView: false,
+    darkMode: false,
+    imgsPerRow: 2,
+    largerText: true,
+  }
+
+  // variables
   items: ImageElement[]; // ImageElement[]
-  largerFont: boolean = true;
   previewHeight: number = 144;
   previewWidth: number = 256;
   searchString: string = '';
@@ -31,6 +49,7 @@ export class AppComponent implements OnInit {
   viewingSettings: boolean = false;
   websocket: WebSocket;
 
+  // constants
   hostname: string = window.location.hostname;
   port: string = window.location.port;
 
@@ -49,12 +68,7 @@ export class AppComponent implements OnInit {
    * otherwise do nothing
    */
   showInstallInstructions(): void {
-    if (this.platform.IOS) {
-      const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
-      if (!isInStandaloneMode) {
-        this.showInstructions = true;
-      }
-    } else if (this.platform.ANDROID) {
+    if (this.platform.IOS || this.platform.ANDROID) {
       const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
       if (!isInStandaloneMode) {
         this.showInstructions = true;
@@ -94,8 +108,8 @@ export class AppComponent implements OnInit {
    * Zoom in
    */
   zoomIn(): void {
-    if (this.currentImgsPerRow > 1) {
-      this.currentImgsPerRow = this.currentImgsPerRow - 1;
+    if (this.settings.imgsPerRow > 1) {
+      this.settings.imgsPerRow = this.settings.imgsPerRow - 1;
       this.updateAfterZoom();
     }
   }
@@ -104,8 +118,8 @@ export class AppComponent implements OnInit {
    * Zoom out
    */
   zoomOut(): void {
-    if (this.currentImgsPerRow < 6) {
-      this.currentImgsPerRow = this.currentImgsPerRow + 1;
+    if (this.settings.imgsPerRow < 6) {
+      this.settings.imgsPerRow = this.settings.imgsPerRow + 1;
       this.updateAfterZoom();
     }
   }
@@ -120,6 +134,7 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('scrollDiv').scrollTop = 0;
     });
+    this.sendSettings();
   }
 
   /**
@@ -129,8 +144,8 @@ export class AppComponent implements OnInit {
     const galleryWidth = document.getElementById('scrollDiv').getBoundingClientRect().width - 12;
     // note: we subtract 12 -- it is a bit more than the scrollbar on the right ----------- ^^^^
 
-    const margin: number = (this.compactView ? 4 : 40);
-    this.previewWidth = (galleryWidth / this.currentImgsPerRow) - margin;
+    const margin: number = (this.settings.compactView ? 4 : 40);
+    this.previewWidth = (galleryWidth / this.settings.imgsPerRow) - margin;
 
     this.previewHeight = this.previewWidth * (9 / 16);
   }
@@ -139,9 +154,26 @@ export class AppComponent implements OnInit {
    * Toggle compact view on/off
    */
   toggleCompactView(): void {
-    this.compactView = !this.compactView;
+    this.settings.compactView = !this.settings.compactView;
     this.virtualScroller.invalidateAllCachedMeasurements();
     this.computePreviewWidth();
+    this.sendSettings();
+  }
+
+  /**
+   * Toggle dark mode
+   */
+  toggleDarkMode(): void {
+    this.settings.darkMode = !this.settings.darkMode;
+    this.sendSettings();
+  }
+
+  /**
+   * Toggle font size
+   */
+  toggleFontSize(): void {
+    this.settings.largerText = !this.settings.largerText;
+    this.sendSettings();
   }
 
   /**
@@ -167,6 +199,19 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Send over settings to VHA for saving
+   */
+  sendSettings(): void {
+    if (this.socketConnected) {
+      const msg: SocketMessage = {
+        type: 'save-settings',
+        data: this.settings,
+      }
+      this.websocket.send(JSON.stringify(msg));
+    }
+  }
+
   // ===============================================================================================
   // Web socket event handlers
   // -----------------------------------------------------------------------------------------------
@@ -187,8 +232,20 @@ export class AppComponent implements OnInit {
   onMessage = (msg: MessageEvent<string>): void => {
     // console.log('message received:');
     try {
-      const data: ImageElement[] = JSON.parse(msg.data);
-      this.items = data.filter((element: ImageElement) => element.cleanName !== '*FOLDER*' );
+      const data: IncomingMessage = JSON.parse(msg.data);
+
+      if (data.type === 'settings') {
+        console.log('SETTINGS ARRIVED !!!');
+        console.log(data.data);
+        if (data.data) {
+          this.settings = data.data as RemoteSettings;
+          this.updateAfterZoom();
+        }
+
+      } else if (data.type === 'gallery') {
+        this.items = (data.data as ImageElement[]).filter((element: ImageElement) => element.cleanName !== '*FOLDER*' );
+      }
+
       // console.log(data[0]);
     } catch (e) {
       // console.log(e);

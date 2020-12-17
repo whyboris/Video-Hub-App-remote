@@ -21,6 +21,12 @@ $settings-height: 300px; // also update `settingsAnimation`
   svg {
     stroke: white;
   }
+
+  button:disabled {
+    svg {
+      stroke: #777777;
+    }
+  }
 }
 
 .dark-mode {
@@ -223,7 +229,7 @@ app-thumbnail {
   }
 }
 
-.ios-install-instructions {
+.install-instructions {
   background: white;
   border-radius: 10px;
   border: 1px solid black;
@@ -232,7 +238,7 @@ app-thumbnail {
   left: 5vw;
   padding: 20px;
   position: fixed;
-  top: 50px;
+  top: 5vw;
   width: 90vw;
 
   svg {
