@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 
 import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
@@ -12,6 +12,7 @@ interface RemoteSettings {
   darkMode: boolean;
   imgsPerRow: number;
   largerText: boolean;
+  playOnDevice: boolean;
 }
 
 type SocketMessageType = 'gallery' | 'settings';
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
     darkMode: false,
     imgsPerRow: 2,
     largerText: true,
+    playOnDevice: true,
   }
 
   // variables
@@ -60,7 +62,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.setUpSocket();
     this.computePreviewWidth();
-    this.showInstallInstructions();
+    // this.showInstallInstructions();
   }
 
   /**
@@ -187,6 +189,16 @@ export class AppComponent implements OnInit {
   }
 
   /**
+   * Toggle if video plays on device or on PC
+   */
+  toggleVideoPlay(): void {
+    this.settings.playOnDevice = !this.settings.playOnDevice;
+    if (!this.showSearch) {
+      this.searchString = '';
+    }
+  }
+
+  /**
    * Request from server the current gallery view
    *      or refresh if not connected
    */
@@ -266,6 +278,71 @@ export class AppComponent implements OnInit {
   onError = (): void => {
     console.log('ERROR IN CONNECTION');
     this.socketConnected = false;
+  }
+
+  // Video playback
+  // most of the code comes from Cal2195
+  // Thank you Cal2195
+
+  @ViewChild('muteButton', { static: false }) muteButton: any;
+  @ViewChild('playButton', { static: false }) playButton: any;
+  @ViewChild('seekBar', { static: false }) seekBar: any;
+  @ViewChild('videoplayer', { static: false }) videoplayer: any;
+  @ViewChild('volumeBar', { static: false }) volumeBar: any;
+
+  currentTime: number = 0;
+  httpfile: string;
+  isMuted: boolean = false;
+  isPlaying: boolean = false;
+  seek: number = 0;
+
+  duration = 30;
+  httpFile: string = "http://192.168.1.5:3000/video?file=C:\\temp\\stream.mp4";
+  tempVidPath: string = 'C:\\temp\\stream.mp4';
+
+  playPauseVideo() {
+    if (!this.videoplayer.nativeElement.paused) {
+      this.isPlaying = false;
+      this.videoplayer.nativeElement.pause();
+    } else {
+      this.isPlaying = true;
+      this.videoplayer.nativeElement.play();
+    }
+  }
+
+  muteUnmuteVideo() {
+    if (this.videoplayer.nativeElement.muted === false) {
+      this.isMuted = true;
+      this.videoplayer.nativeElement.muted = true;
+    } else {
+      this.isMuted = false;
+      this.videoplayer.nativeElement.muted = false;
+    }
+  }
+
+  fullscreenVideo() {
+    this.videoplayer.nativeElement.requestFullscreen();
+  }
+
+  seekBarChange() {
+    this.seek = parseFloat(this.seekBar.nativeElement.value);
+    this.seekVideo(!this.videoplayer.nativeElement.paused);
+  }
+
+  seekBarUpdate() {
+    this.currentTime = parseFloat(this.videoplayer.nativeElement.currentTime) + this.seek;
+    this.seekBar.nativeElement.value = this.currentTime;
+  }
+
+  seekVideo(play = false) {
+    this.httpFile = 'http://192.168.1.5:3000/video?file=' + this.tempVidPath + '&seek=' + this.seek;
+    if (this.videoplayer) {
+      this.videoplayer.nativeElement.autoplay = play;
+    }
+  }
+
+  volumeChange() {
+    this.videoplayer.nativeElement.volume = this.volumeBar.nativeElement.value;
   }
 
 }

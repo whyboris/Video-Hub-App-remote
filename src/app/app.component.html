@@ -127,9 +127,19 @@
 
   <div>
     <button (click)="toggleFontSize()" [ngClass]="{ toggled: settings.largerText }">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-type"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>    </button>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-type"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
+    </button>
     <span>
       Larger text
+    </span>
+  </div>
+
+  <div>
+    <button (click)="toggleVideoPlay()" [ngClass]="{ toggled: settings.playOnDevice }">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-film"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+    </button>
+    <span>
+      Play on device
     </span>
   </div>
 
@@ -186,4 +196,52 @@
     </ol>
 
   <p>Afterwards, you can close this and open the app from your home screen!</p>
+</div>
+
+<div class="video-player-container">
+
+  <video
+    [src]="this.httpFile"
+    class="video-player"
+    #videoplayer
+    (timeupdate)="this.seekBarUpdate()"
+    (click)="this.playPauseVideo()"
+  ></video>
+
+  <div class="video-controls">
+
+    <button #playButton type="button" id="play-pause" (click)="this.playPauseVideo()">
+
+      <svg *ngIf="!isPlaying; else pauseButton" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+
+      <ng-template #pauseButton>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pause"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+      </ng-template>
+
+    </button>
+
+    <input #seekBar class="seek-bar" type="range" id="seek-bar" value="0" max="{{this.duration}}" step="1" (change)="this.seekBarChange()">
+
+    <span class="time">
+      {{this.currentTime | durationPipe }} / {{this.duration | durationPipe}}
+    </span>
+
+    <button #muteButton type="button" id="mute" (click)="this.muteUnmuteVideo()">
+
+      <svg *ngIf="isMuted; else muteButtonIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-volume-x"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+
+      <ng-template #muteButtonIcon>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-volume"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon></svg>
+      </ng-template>
+
+    </button>
+
+    <input #volumeBar type="range" id="volume-bar" min="0" max="1" step="0.1" value="1" (change)="this.volumeChange()">
+
+    <button type="button" id="full-screen" (click)="this.fullscreenVideo()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+    </button>
+
+  </div>
+
 </div>

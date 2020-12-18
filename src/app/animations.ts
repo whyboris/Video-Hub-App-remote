@@ -18,14 +18,14 @@ export const searchAnimation = trigger('searchAnimation', [
 export const settingsAnimation = trigger('settingsAnimation', [
   transition(
     ':enter', [
-      style({ transform: 'translate(0, 300px)' }),
+      style({ transform: 'translate(0, 333px)' }),
       animate('300ms ease', style({ transform: 'translate(0, 0)' }))
     ]
   ),
   transition(
     ':leave', [
       style({ transform: 'translate(0, 0)' }),
-      animate('300ms ease', style({ transform: 'translate(0, 300px)' }))
+      animate('300ms ease', style({ transform: 'translate(0, 333px)' }))
     ]
   )]
 );

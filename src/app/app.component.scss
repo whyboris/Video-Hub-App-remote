@@ -1,5 +1,5 @@
 $menu-height: 50px;
-$settings-height: 300px; // also update `settingsAnimation`
+$settings-height: 333px; // also update `settingsAnimation`
 
 .buttons-menu {
   background-color: #f9f9f9;
@@ -269,5 +269,44 @@ app-thumbnail {
     position: absolute;
     right: 10px;
     top: 10px;
+  }
+}
+
+.video-player-container {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #bbbbbb;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  height: 65vw;
+  left: 0;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+
+  button {
+    margin: 0;
+    padding-top: 7px;
+  }
+
+  .time {
+    font-family: monospace;
+    font-size: 12px;
+    padding: 12px 6px;
+  }
+
+  .video-player {
+    height: 90%;
+    width: 100%;
+  }
+
+  .video-controls {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .seek-bar {
+    flex-grow: 2;
+    margin: 0 10px;
   }
 }
