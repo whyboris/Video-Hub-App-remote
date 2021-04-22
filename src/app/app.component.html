@@ -200,15 +200,21 @@
 
 <div class="video-player-container">
 
+  <!-- (timeupdate)="this.seekBarUpdate()" -->
   <video
     [src]="this.httpFile"
     class="video-player"
     #videoplayer
-    (timeupdate)="this.seekBarUpdate()"
     (click)="this.playPauseVideo()"
+    (loadedmetadata)="this.seekTo()"
+    controls
+    preload
+    autoplay
+    muted
+    playsinline
   ></video>
 
-  <div class="video-controls">
+  <div class="video-controls" *ngIf=false>
 
     <button #playButton type="button" id="play-pause" (click)="this.playPauseVideo()">
 

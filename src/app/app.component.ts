@@ -6,6 +6,7 @@ import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
 import { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
 
 import { errorAppear, searchAnimation, settingsAnimation } from './animations';
+import { environment } from 'src/environments/environment';
 
 interface RemoteSettings {
   compactView: boolean;
@@ -53,13 +54,14 @@ export class AppComponent implements OnInit {
 
   // constants
   hostname: string = window.location.hostname;
-  port: string = window.location.port;
+  port: string = environment.production ? window.location.port : '3000';
 
   constructor(
     public platform: Platform
   ) { }
 
   ngOnInit() {
+    console.log(this.hostname);
     this.setUpSocket();
     this.computePreviewWidth();
     // this.showInstallInstructions();
@@ -97,13 +99,27 @@ export class AppComponent implements OnInit {
    * @param videoClick
    */
   handleClick(videoClick: VideoClickEmit): void {
-    if (this.socketConnected) {
-      const msg: SocketMessage = {
-        type: 'open-file',
-        data: videoClick
-      };
-      this.websocket.send(JSON.stringify(msg));
-    }
+
+    console.log(videoClick);
+
+    const partial: string = videoClick.video.partialPath;
+    const name: string = videoClick.video.fileName;
+
+    const full: string = 'C:/temp/input' + partial + '/' + name;
+
+    console.log(full);
+
+    this.tempVidPath = full;
+
+    this.seekVideo(true);
+
+    // if (this.socketConnected) {
+    //   const msg: SocketMessage = {
+    //     type: 'open-file',
+    //     data: videoClick
+    //   };
+    //   this.websocket.send(JSON.stringify(msg));
+    // }
   }
 
   /**
@@ -297,8 +313,8 @@ export class AppComponent implements OnInit {
   seek: number = 0;
 
   duration = 30;
-  httpFile: string = "http://192.168.1.5:3000/video?file=C:\\temp\\stream.mp4";
-  tempVidPath: string = 'C:\\temp\\stream.mp4';
+  tempVidPath: string = 'C:/temp/stream.mp4';
+  httpFile: string = 'http://' + this.hostname + ':' + this.port + '/video?file=' + this.tempVidPath;
 
   playPauseVideo() {
     if (!this.videoplayer.nativeElement.paused) {
@@ -308,6 +324,10 @@ export class AppComponent implements OnInit {
       this.isPlaying = true;
       this.videoplayer.nativeElement.play();
     }
+  }
+
+  seekTo(): void {
+    this.videoplayer.nativeElement.currentTime = 15;
   }
 
   muteUnmuteVideo() {
@@ -335,7 +355,7 @@ export class AppComponent implements OnInit {
   }
 
   seekVideo(play = false) {
-    this.httpFile = 'http://192.168.1.5:3000/video?file=' + this.tempVidPath + '&seek=' + this.seek;
+    this.httpFile = 'http://' + this.hostname + ':' + this.port + '/video?file=' + this.tempVidPath + '&seek=' + this.seek;
     if (this.videoplayer) {
       this.videoplayer.nativeElement.autoplay = play;
     }
