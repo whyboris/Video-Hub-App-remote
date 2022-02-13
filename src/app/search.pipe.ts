@@ -1,6 +1,7 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe } from '@angular/core';
 
-import { ImageElement } from './interfaces';
+import type { PipeTransform } from '@angular/core';
+import type { ImageElement } from './interfaces';
 
 @Pipe({
   name: 'searchPipe'
