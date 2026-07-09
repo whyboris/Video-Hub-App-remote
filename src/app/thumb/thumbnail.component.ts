@@ -5,9 +5,10 @@ import { FilePathService } from '../file-path.service';
 import { ImageElement, VideoClickEmit } from '../interfaces';
 
 @Component({
-  selector: 'app-thumbnail',
-  templateUrl: './thumbnail.component.html',
-  styleUrls: ['./thumbnail.component.scss']
+    selector: 'app-thumbnail',
+    templateUrl: './thumbnail.component.html',
+    styleUrls: ['./thumbnail.component.scss'],
+    standalone: false
 })
 export class ThumbnailComponent implements OnInit, OnDestroy {
 

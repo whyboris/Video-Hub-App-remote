@@ -22,10 +22,11 @@ interface IncomingMessage {
 }
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  animations: [errorAppear, searchAnimation, settingsAnimation]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    animations: [errorAppear, searchAnimation, settingsAnimation],
+    standalone: false
 })
 export class AppComponent implements OnInit {
 
