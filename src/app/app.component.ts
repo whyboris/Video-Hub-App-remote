@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Platform } from '@angular/cdk/platform';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+// import { Platform } from '@angular/cdk/platform'; <-- TODO: fix, follow the  <-- ***
 
-import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
+import { VirtualScrollerComponent } from '@iharbeck/ngx-virtual-scroller';
 
 import { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
 
@@ -22,10 +22,12 @@ interface IncomingMessage {
 }
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  animations: [errorAppear, searchAnimation, settingsAnimation]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    animations: [errorAppear, searchAnimation, settingsAnimation],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class AppComponent implements OnInit {
 
@@ -53,8 +55,13 @@ export class AppComponent implements OnInit {
   hostname: string = window.location.hostname;
   port: string = window.location.port;
 
+  platform = {
+    "SAFARI": false,
+    "IOS": true,
+  }  // <-- *** -- added this temporarily
+
   constructor(
-    public platform: Platform
+    // public platform: Platform  <-- ***
   ) { }
 
   ngOnInit() {
@@ -68,12 +75,12 @@ export class AppComponent implements OnInit {
    * otherwise do nothing
    */
   showInstallInstructions(): void {
-    if (this.platform.IOS || this.platform.ANDROID) {
+    // if (this.platform.IOS || this.platform.ANDROID) {  <-- ***
       const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
       if (!isInStandaloneMode) {
         this.showInstructions = true;
       }
-    }
+    // } <-- ***
   }
 
   /**

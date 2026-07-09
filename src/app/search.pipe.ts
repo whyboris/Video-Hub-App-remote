@@ -4,7 +4,8 @@ import type { PipeTransform } from '@angular/core';
 import type { ImageElement } from './interfaces';
 
 @Pipe({
-  name: 'searchPipe'
+    name: 'searchPipe',
+    standalone: false
 })
 export class SearchPipe implements PipeTransform {
 
