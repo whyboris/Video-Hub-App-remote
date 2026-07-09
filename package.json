@@ -9,30 +9,30 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "20.3.26",
-    "@angular/common": "20.3.26",
-    "@angular/compiler": "20.3.26",
-    "@angular/core": "20.3.26",
-    "@angular/forms": "20.3.26",
-    "@angular/platform-browser-dynamic": "20.3.26",
-    "@angular/platform-browser": "20.3.26",
-    "@angular/router": "20.3.26",
-    "@angular/service-worker": "20.3.26",
+    "@angular/animations": "21.2.18",
+    "@angular/common": "21.2.18",
+    "@angular/compiler": "21.2.18",
+    "@angular/core": "21.2.18",
+    "@angular/forms": "21.2.18",
+    "@angular/platform-browser-dynamic": "21.2.18",
+    "@angular/platform-browser": "21.2.18",
+    "@angular/router": "21.2.18",
+    "@angular/service-worker": "21.2.18",
     "@iharbeck/ngx-virtual-scroller": "20.0.0",
     "rxjs": "7.8.0",
     "tslib": "2.5.0",
     "zone.js": "0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "20.3.31",
+    "@angular-devkit/build-angular": "21.2.18",
     "@angular-eslint/builder": "15.2.1",
-    "@angular/cli": "20.3.31",
-    "@angular/compiler-cli": "20.3.26",
+    "@angular/cli": "21.2.18",
+    "@angular/compiler-cli": "21.2.18",
     "@types/node": "18.14.0",
     "@typescript-eslint/eslint-plugin": "5.53.0",
     "@typescript-eslint/parser": "5.53.0",
     "eslint": "8.34.0",
     "ts-node": "10.9.1",
-    "typescript": "5.8.3"
+    "typescript": "5.9.3"
   }
 }
