@@ -6,7 +6,6 @@
   },
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "esModuleInterop": true,
@@ -15,6 +14,8 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "es2022",
-    "module": "es2022"
+    "module": "es2022",
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false
   }
 }

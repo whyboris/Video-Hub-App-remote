@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 // import { Platform } from '@angular/cdk/platform'; <-- TODO: fix, follow the  <-- ***
 
 import { VirtualScrollerComponent } from '@iharbeck/ngx-virtual-scroller';
@@ -26,6 +26,7 @@ interface IncomingMessage {
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     animations: [errorAppear, searchAnimation, settingsAnimation],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AppComponent implements OnInit {
