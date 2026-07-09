@@ -5,7 +5,7 @@
     }"
   class="filmstrip-container"
   [ngClass]="{ 'compact-margins': compactView }"
->
+  >
 
   <div
     #filmstripHolder
@@ -21,17 +21,20 @@
         'background-image': 'url(' + (hover ? fullFilePath : firstFilePath) + ')',
         'background-position-x': percentOffset + '%'
       }"
-  >
-    <span *ngIf="!connected" class="not-connected"></span>
+    >
+    @if (!connected) {
+      <span class="not-connected"></span>
+    }
   </div>
 
-  <span
-    *ngIf="!compactView"
-    class="title"
-    [ngClass]="{ 'larger-font': largerFont }"
-    [ngStyle]="{ color: darkMode ? '#BBBBBB' : '#000000' }"
-  >
-    {{ video.cleanName }}
-  </span>
+  @if (!compactView) {
+    <span
+      class="title"
+      [ngClass]="{ 'larger-font': largerFont }"
+      [ngStyle]="{ color: darkMode ? '#BBBBBB' : '#000000' }"
+      >
+      {{ video.cleanName }}
+    </span>
+  }
 
 </div>
