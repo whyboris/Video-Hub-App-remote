@@ -20,8 +20,7 @@
     "@angular/service-worker": "22.0.6",
     "@iharbeck/ngx-virtual-scroller": "20.0.0",
     "rxjs": "7.8.0",
-    "tslib": "2.5.0",
-    "zone.js": "0.15.1"
+    "tslib": "2.5.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "22.0.5",
