@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 
-import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
+import { VirtualScrollerComponent } from '@iharbeck/ngx-virtual-scroller';
 
 import { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
 

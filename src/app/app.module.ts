@@ -3,7 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { VirtualScrollerModule } from 'ngx-virtual-scroller';
+import { CommonModule } from '@angular/common';
+
+import { VirtualScrollerModule } from '@iharbeck/ngx-virtual-scroller';
+
 
 import { FilePathService } from './file-path.service';
 
@@ -23,6 +26,7 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
+    CommonModule,
     FormsModule,
     VirtualScrollerModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
