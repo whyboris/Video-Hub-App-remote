@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Platform } from '@angular/cdk/platform';
+// import { Platform } from '@angular/cdk/platform'; <-- TODO: fix, follow the  <-- ***
 
 import { VirtualScrollerComponent } from '@iharbeck/ngx-virtual-scroller';
 
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
   port: string = window.location.port;
 
   constructor(
-    public platform: Platform
+    // public platform: Platform  <-- ***
   ) { }
 
   ngOnInit() {
@@ -68,12 +68,12 @@ export class AppComponent implements OnInit {
    * otherwise do nothing
    */
   showInstallInstructions(): void {
-    if (this.platform.IOS || this.platform.ANDROID) {
+    // if (this.platform.IOS || this.platform.ANDROID) {  <-- ***
       const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
       if (!isInStandaloneMode) {
         this.showInstructions = true;
       }
-    }
+    // } <-- ***
   }
 
   /**
