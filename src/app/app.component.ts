@@ -53,6 +53,11 @@ export class AppComponent implements OnInit {
   hostname: string = window.location.hostname;
   port: string = window.location.port;
 
+  platform = {
+    "SAFARI": false,
+    "IOS": true,
+  }  // <-- *** -- added this temporarily
+
   constructor(
     // public platform: Platform  <-- ***
   ) { }
