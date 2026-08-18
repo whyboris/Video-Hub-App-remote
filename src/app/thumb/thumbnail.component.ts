@@ -1,8 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit, ElementRef, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 import { FilePathService } from '../file-path.service';
 
-import { ImageElement, VideoClickEmit } from '../interfaces';
+import type { ImageElement, VideoClickEmit } from '../interfaces';
+import type { OnInit, ElementRef, OnDestroy } from "@angular/core";
 
 @Component({
     selector: 'app-thumbnail',
@@ -38,12 +39,10 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
   folderThumbPaths: string[] = [];
   fullFilePath = '';
   hover: boolean;
-  indexToShow: number = 1;
-  percentOffset: number = 0;
-  scrollInterval: any = null;
-
+  indexToShow = 1;
   leftOffset: number;
-
+  percentOffset = 0;
+  scrollInterval: number = null;
 
   constructor(
     public filePathService: FilePathService
@@ -116,7 +115,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
    * Handle finger dragging
    * @param $event
    */
-  handleTouchMove($event: any) {
+  handleTouchMove($event: TouchEvent) {
     if (this.hoverScrub) {
 
       const cursorX = ($event.targetTouches[0].clientX) - this.leftOffset;
@@ -133,7 +132,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
    * Use $event to determine `indexToShow`
    * @param $event
    */
-  handleClick($event: any) {
+  handleClick($event: PointerEvent) {
     // TODO -- handle: this.hoverScrub
     // and then change name to `this.playFromClickedLocation` or something
 
