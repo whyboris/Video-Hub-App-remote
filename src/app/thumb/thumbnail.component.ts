@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output, ViewChild, input } from '@angular/core';
+import { NgStyle, NgClass } from '@angular/common';
 
 import { FilePathService } from '../file-path.service';
 
 import type { ImageElement, VideoClickEmit } from '../interfaces';
 import type { OnInit, ElementRef, OnDestroy } from "@angular/core";
-import { NgStyle, NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-thumbnail',

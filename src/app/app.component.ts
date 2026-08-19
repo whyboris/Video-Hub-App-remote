@@ -1,16 +1,18 @@
 import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgClass, NgStyle } from '@angular/common';
 // import { Platform } from '@angular/cdk/platform'; <-- TODO: fix, follow the  <-- ***
 
 import { VirtualScrollerComponent, VirtualScrollerModule } from '@iharbeck/ngx-virtual-scroller';
+
+import { ThumbnailComponent } from './thumb/thumbnail.component';
+
+import { SearchPipe } from './search.pipe';
 
 import { errorAppear, searchAnimation, settingsAnimation } from './animations';
 
 import type { OnInit } from '@angular/core';
 import type { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
-import { NgClass, NgStyle } from '@angular/common';
-import { ThumbnailComponent } from './thumb/thumbnail.component';
-import { FormsModule } from '@angular/forms';
-import { SearchPipe } from './search.pipe';
 
 interface RemoteSettings {
   compactView: boolean;
