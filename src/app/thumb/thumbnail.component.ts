@@ -4,13 +4,14 @@ import { FilePathService } from '../file-path.service';
 
 import type { ImageElement, VideoClickEmit } from '../interfaces';
 import type { OnInit, ElementRef, OnDestroy } from "@angular/core";
+import { NgStyle, NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-thumbnail',
     templateUrl: './thumbnail.component.html',
     styleUrls: ['./thumbnail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [NgStyle, NgClass]
 })
 export class ThumbnailComponent implements OnInit, OnDestroy {
 

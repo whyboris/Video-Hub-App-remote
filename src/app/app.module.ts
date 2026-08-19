@@ -18,22 +18,20 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SearchPipe,
-    ThumbnailComponent,
-  ],
-  imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
-    CommonModule,
-    FormsModule,
-    VirtualScrollerModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-  ],
-  providers: [
-    FilePathService
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        BrowserAnimationsModule,
+        BrowserModule,
+        CommonModule,
+        FormsModule,
+        VirtualScrollerModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+        SearchPipe,
+        ThumbnailComponent,
+    ],
+    providers: [
+        FilePathService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
