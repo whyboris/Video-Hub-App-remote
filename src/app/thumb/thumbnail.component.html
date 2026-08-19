@@ -1,5 +1,5 @@
 <div
-  [ngStyle]="{
+  [style]="{
       height: elHeight() + 'px',
       width: elWidth() + 'px'
     }"
@@ -16,12 +16,10 @@
 
     (click)="handleClick($event)"
 
-    [ngStyle]="{
-        height: imgHeight() + 'px'
-      }"
+    [style.height]="imgHeight() + 'px'"
     >
       <img
-        [ngStyle]="{ height: imgHeight() + 'px',
+        [style]="{ height: imgHeight() + 'px',
                      transform: 'translate(' + (-percentOffset) + '%, 0)' }"
         src="{{ hover ? fullFilePath : firstFilePath }}"
       >
@@ -34,7 +32,7 @@
     <span
       class="title"
       [ngClass]="{ 'larger-font': largerFont() }"
-      [ngStyle]="{ color: darkMode() ? '#BBBBBB' : '#000000' }"
+      [style.color]="darkMode() ? '#BBBBBB' : '#000000'"
       >
       {{ video().cleanName }}
     </span>
