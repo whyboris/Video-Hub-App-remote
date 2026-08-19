@@ -1,12 +1,30 @@
-import { enableProdMode, provideZonelessChangeDetection } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { AppModule } from './app/app.module';
+import { VirtualScrollerModule } from '@iharbeck/ngx-virtual-scroller';
+
+import { FilePathService } from './app/file-path.service';
+
+import { AppComponent } from './app/app.component';
+
 import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule, { applicationProviders: [provideZonelessChangeDetection()], })
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+    providers: [
+      importProvidersFrom(
+        BrowserModule,
+        CommonModule,
+        FormsModule,
+        VirtualScrollerModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+      ),
+      FilePathService,
+    ]
+}).catch(err => console.error(err));

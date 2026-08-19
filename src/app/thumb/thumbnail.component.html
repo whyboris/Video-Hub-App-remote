@@ -1,10 +1,10 @@
 <div
-  [ngStyle]="{
+  [style]="{
       height: elHeight() + 'px',
       width: elWidth() + 'px'
     }"
   class="filmstrip-container"
-  [ngClass]="{ 'compact-margins': compactView() }"
+  [class.compact-margins]="compactView()"
   >
 
   <div
@@ -16,12 +16,13 @@
 
     (click)="handleClick($event)"
 
-    [ngStyle]="{
-        height: imgHeight() + 'px',
-        'background-image': 'url(' + (hover ? fullFilePath : firstFilePath) + ')',
-        'background-position-x': percentOffset + '%'
-      }"
+    [style.height]="imgHeight() + 'px'"
     >
+      <img
+        [style]="{ height: imgHeight() + 'px',
+                     transform: 'translate(' + (-percentOffset) + '%, 0)' }"
+        src="{{ hover ? fullFilePath : firstFilePath }}"
+      >
     @if (!connected()) {
       <span class="not-connected"></span>
     }
@@ -30,8 +31,8 @@
   @if (!compactView()) {
     <span
       class="title"
-      [ngClass]="{ 'larger-font': largerFont() }"
-      [ngStyle]="{ color: darkMode() ? '#BBBBBB' : '#000000' }"
+      [class.larger-font]="largerFont()"
+      [style.color]="darkMode() ? '#BBBBBB' : '#000000'"
       >
       {{ video().cleanName }}
     </span>

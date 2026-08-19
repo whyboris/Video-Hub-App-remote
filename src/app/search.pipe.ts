@@ -3,10 +3,7 @@ import { Pipe } from '@angular/core';
 import type { PipeTransform } from '@angular/core';
 import type { ImageElement } from './interfaces';
 
-@Pipe({
-    name: 'searchPipe',
-    standalone: false
-})
+@Pipe({ name: 'searchPipe' })
 export class SearchPipe implements PipeTransform {
 
   /**

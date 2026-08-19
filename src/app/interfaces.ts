@@ -45,6 +45,7 @@ export interface ImageElement {
   resBucket: number;             // the resolution category the video falls into (for faster sorting)
   resolution: ResolutionString;  // e.g. `720`, `1080`, `SD`, `HD`, etc
   selected?: boolean;            // for batch-tagging of videos
+  uuid: string                   // to help track inside @for in home.component.html
 }
 
 export type StarRating = 0.5 | 1.5 | 2.5 | 3.5 | 4.5 | 5.5;

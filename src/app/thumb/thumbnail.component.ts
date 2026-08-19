@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output, ViewChild, input } from '@angular/core';
 
+
 import { FilePathService } from '../file-path.service';
 
 import type { ImageElement, VideoClickEmit } from '../interfaces';
@@ -9,8 +10,7 @@ import type { OnInit, ElementRef, OnDestroy } from "@angular/core";
     selector: 'app-thumbnail',
     templateUrl: './thumbnail.component.html',
     styleUrls: ['./thumbnail.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ThumbnailComponent implements OnInit, OnDestroy {
 
@@ -18,21 +18,21 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
 
   @Output() videoClick = new EventEmitter<VideoClickEmit>();
 
-  readonly video = input<ImageElement>(undefined);
+  readonly video = input<ImageElement>();
 
-  readonly compactView = input<boolean>(undefined);
-  readonly connected = input<boolean>(undefined);
-  readonly darkMode = input<boolean>(undefined);
-  readonly elHeight = input<number>(undefined);
-  readonly elWidth = input<number>(undefined);
-  readonly folderPath = input<string>(undefined);
-  readonly hoverScrub = input<boolean>(undefined);
-  readonly hubName = input<string>(undefined);
-  readonly imgHeight = input<number>(undefined);
-  readonly largerFont = input<boolean>(undefined);
-  readonly returnToFirstScreenshot = input<boolean>(undefined);
-  readonly showMeta = input<boolean>(undefined);
-  readonly thumbAutoAdvance = input<boolean>(undefined);
+  readonly compactView = input<boolean>();
+  readonly connected = input<boolean>();
+  readonly darkMode = input<boolean>();
+  readonly elHeight = input<number>();
+  readonly elWidth = input<number>();
+  readonly folderPath = input<string>();
+  readonly hoverScrub = input<boolean>();
+  readonly hubName = input<string>();
+  readonly imgHeight = input<number>();
+  readonly largerFont = input<boolean>();
+  readonly returnToFirstScreenshot = input<boolean>();
+  readonly showMeta = input<boolean>();
+  readonly thumbAutoAdvance = input<boolean>();
 
   containerWidth: number;
   firstFilePath = '';
@@ -50,10 +50,9 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.firstFilePath = this.filePathService.createFilePath(this.folderPath(), this.hubName(), 'thumbnails', this.video().hash);
-    this.fullFilePath = this.filePathService.createFilePath(this.folderPath(), this.hubName(), 'filmstrips', this.video().hash);
+    this.firstFilePath = this.filePathService.createFilePath('thumbnails', this.video().hash);
+    this.fullFilePath = this.filePathService.createFilePath('filmstrips', this.video().hash);
     this.folderThumbPaths.push(this.firstFilePath);
-
 
     const video = this.video();
     if (video.defaultScreen) {
@@ -63,7 +62,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
   }
 
   defaultScreenOffset(video: ImageElement): number {
-    return 100 * video.defaultScreen / (video.screens - 1);
+    return 100 * video.defaultScreen / video.screens;
   }
 
   /**
@@ -82,7 +81,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
       this.hover = true;
 
       this.scrollInterval = setInterval(() => {
-        this.percentOffset = this.indexToShow * (100 / (this.video().screens - 1));
+        this.percentOffset = this.indexToShow * (100 / this.video().screens);
         this.indexToShow++;
       }, 750);
 
@@ -124,7 +123,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
 
       if (cursorX < this.containerWidth && cursorX > 0) {
         this.indexToShow = Math.floor(cursorX * (this.video().screens / this.containerWidth));
-        this.percentOffset = this.indexToShow * (100 / (this.video().screens - 1));
+        this.percentOffset = this.indexToShow * (100 / this.video().screens);
       }
 
     }

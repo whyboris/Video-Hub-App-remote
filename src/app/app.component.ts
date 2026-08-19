@@ -1,9 +1,13 @@
 import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 // import { Platform } from '@angular/cdk/platform'; <-- TODO: fix, follow the  <-- ***
 
-import { VirtualScrollerComponent } from '@iharbeck/ngx-virtual-scroller';
+import { VirtualScrollerComponent, VirtualScrollerModule } from '@iharbeck/ngx-virtual-scroller';
 
-import { errorAppear, searchAnimation, settingsAnimation } from './animations';
+import { ThumbnailComponent } from './thumb/thumbnail.component';
+
+import { SearchPipe } from './search.pipe';
 
 import type { OnInit } from '@angular/core';
 import type { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
@@ -25,10 +29,9 @@ interface IncomingMessage {
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    animations: [errorAppear, searchAnimation, settingsAnimation],
+    styleUrls: ['./app.component.scss', './animations.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [VirtualScrollerModule, ThumbnailComponent, FormsModule, SearchPipe]
 })
 export class AppComponent implements OnInit {
 
@@ -136,9 +139,9 @@ export class AppComponent implements OnInit {
    * Refresh virtualScroller, width measurements, and update the view
    */
   updateAfterZoom(): void {
+    this.computePreviewWidth();
     this.virtualScroller.invalidateAllCachedMeasurements();
     this.virtualScroller.refresh();
-    this.computePreviewWidth();
     setTimeout(() => {
       document.getElementById('scrollDiv').scrollTop = 0;
     });
@@ -163,8 +166,8 @@ export class AppComponent implements OnInit {
    */
   toggleCompactView(): void {
     this.settings.compactView = !this.settings.compactView;
-    this.virtualScroller.invalidateAllCachedMeasurements();
     this.computePreviewWidth();
+    this.virtualScroller.invalidateAllCachedMeasurements();
     this.sendSettings();
   }
 
