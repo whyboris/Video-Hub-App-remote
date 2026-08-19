@@ -139,9 +139,9 @@ export class AppComponent implements OnInit {
    * Refresh virtualScroller, width measurements, and update the view
    */
   updateAfterZoom(): void {
+    this.computePreviewWidth();
     this.virtualScroller.invalidateAllCachedMeasurements();
     this.virtualScroller.refresh();
-    this.computePreviewWidth();
     setTimeout(() => {
       document.getElementById('scrollDiv').scrollTop = 0;
     });
@@ -166,8 +166,8 @@ export class AppComponent implements OnInit {
    */
   toggleCompactView(): void {
     this.settings.compactView = !this.settings.compactView;
-    this.virtualScroller.invalidateAllCachedMeasurements();
     this.computePreviewWidth();
+    this.virtualScroller.invalidateAllCachedMeasurements();
     this.sendSettings();
   }
 

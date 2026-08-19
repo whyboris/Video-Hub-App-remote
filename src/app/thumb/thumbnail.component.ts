@@ -51,8 +51,8 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.firstFilePath = this.filePathService.createFilePath(this.folderPath(), this.hubName(), 'thumbnails', this.video().hash);
-    this.fullFilePath = this.filePathService.createFilePath(this.folderPath(), this.hubName(), 'filmstrips', this.video().hash);
+    this.firstFilePath = this.filePathService.createFilePath('thumbnails', this.video().hash);
+    this.fullFilePath = this.filePathService.createFilePath('filmstrips', this.video().hash);
     this.folderThumbPaths.push(this.firstFilePath);
 
 
