@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 // import { Platform } from '@angular/cdk/platform'; <-- TODO: fix, follow the  <-- ***
 
 import { VirtualScrollerComponent } from '@iharbeck/ngx-virtual-scroller';
 
-import { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
-
 import { errorAppear, searchAnimation, settingsAnimation } from './animations';
+
+import type { OnInit } from '@angular/core';
+import type { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
 
 interface RemoteSettings {
   compactView: boolean;
@@ -42,13 +43,13 @@ export class AppComponent implements OnInit {
 
   // variables
   items: ImageElement[]; // ImageElement[]
-  previewHeight: number = 144;
-  previewWidth: number = 256;
-  searchString: string = '';
-  showInstructions: boolean = false;
-  showSearch: boolean = false;
-  socketConnected: boolean = false;
-  viewingSettings: boolean = false;
+  previewHeight = 144;
+  previewWidth = 256;
+  searchString = '';
+  showInstructions = false;
+  showSearch = false;
+  socketConnected = false;
+  viewingSettings = false;
   websocket: WebSocket;
 
   // constants

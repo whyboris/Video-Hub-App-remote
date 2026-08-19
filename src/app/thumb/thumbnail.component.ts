@@ -1,8 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit, ElementRef, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, ViewChild, input } from '@angular/core';
 
 import { FilePathService } from '../file-path.service';
 
-import { ImageElement, VideoClickEmit } from '../interfaces';
+import type { ImageElement, VideoClickEmit } from '../interfaces';
+import type { OnInit, ElementRef, OnDestroy } from "@angular/core";
 
 @Component({
     selector: 'app-thumbnail',
@@ -17,33 +18,31 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
 
   @Output() videoClick = new EventEmitter<VideoClickEmit>();
 
-  @Input() video: ImageElement;
+  readonly video = input<ImageElement>(undefined);
 
-  @Input() compactView: boolean;
-  @Input() connected: boolean;
-  @Input() darkMode: boolean;
-  @Input() elHeight: number;
-  @Input() elWidth: number;
-  @Input() folderPath: string;
-  @Input() hoverScrub: boolean;
-  @Input() hubName: string;
-  @Input() imgHeight: number;
-  @Input() largerFont: boolean;
-  @Input() returnToFirstScreenshot: boolean;
-  @Input() showMeta: boolean;
-  @Input() thumbAutoAdvance: boolean;
+  readonly compactView = input<boolean>(undefined);
+  readonly connected = input<boolean>(undefined);
+  readonly darkMode = input<boolean>(undefined);
+  readonly elHeight = input<number>(undefined);
+  readonly elWidth = input<number>(undefined);
+  readonly folderPath = input<string>(undefined);
+  readonly hoverScrub = input<boolean>(undefined);
+  readonly hubName = input<string>(undefined);
+  readonly imgHeight = input<number>(undefined);
+  readonly largerFont = input<boolean>(undefined);
+  readonly returnToFirstScreenshot = input<boolean>(undefined);
+  readonly showMeta = input<boolean>(undefined);
+  readonly thumbAutoAdvance = input<boolean>(undefined);
 
   containerWidth: number;
   firstFilePath = '';
   folderThumbPaths: string[] = [];
   fullFilePath = '';
   hover: boolean;
-  indexToShow: number = 1;
-  percentOffset: number = 0;
-  scrollInterval: any = null;
-
+  indexToShow = 1;
   leftOffset: number;
-
+  percentOffset = 0;
+  scrollInterval: number = null;
 
   constructor(
     public filePathService: FilePathService
@@ -51,14 +50,15 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.firstFilePath = this.filePathService.createFilePath(this.folderPath, this.hubName, 'thumbnails', this.video.hash);
-    this.fullFilePath = this.filePathService.createFilePath(this.folderPath, this.hubName, 'filmstrips', this.video.hash);
+    this.firstFilePath = this.filePathService.createFilePath(this.folderPath(), this.hubName(), 'thumbnails', this.video().hash);
+    this.fullFilePath = this.filePathService.createFilePath(this.folderPath(), this.hubName(), 'filmstrips', this.video().hash);
     this.folderThumbPaths.push(this.firstFilePath);
 
 
-    if (this.video.defaultScreen) {
+    const video = this.video();
+    if (video.defaultScreen) {
       this.hover = true;
-      this.percentOffset = this.defaultScreenOffset(this.video);
+      this.percentOffset = this.defaultScreenOffset(video);
     }
   }
 
@@ -78,15 +78,15 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
     // x offset -- for `handleTouchMove`
     this.leftOffset = this.filmstripHolder.nativeElement.getBoundingClientRect().left;
 
-    if (this.thumbAutoAdvance) {
+    if (this.thumbAutoAdvance()) {
       this.hover = true;
 
       this.scrollInterval = setInterval(() => {
-        this.percentOffset = this.indexToShow * (100 / (this.video.screens - 1));
+        this.percentOffset = this.indexToShow * (100 / (this.video().screens - 1));
         this.indexToShow++;
       }, 750);
 
-    } else if (this.hoverScrub) {
+    } else if (this.hoverScrub()) {
       this.hover = true;
     }
   }
@@ -98,13 +98,14 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
 
     // console.log('TOUCH END !!!');
 
-    if (this.thumbAutoAdvance) {
+    if (this.thumbAutoAdvance()) {
       clearInterval(this.scrollInterval);
     }
 
-    if (this.returnToFirstScreenshot) {
-      if (this.video.defaultScreen !== undefined) {
-        this.percentOffset = this.defaultScreenOffset(this.video);
+    if (this.returnToFirstScreenshot()) {
+      const video = this.video();
+      if (video.defaultScreen !== undefined) {
+        this.percentOffset = this.defaultScreenOffset(video);
       } else {
         this.hover = false;
         this.percentOffset = 0;
@@ -116,14 +117,14 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
    * Handle finger dragging
    * @param $event
    */
-  handleTouchMove($event: any) {
-    if (this.hoverScrub) {
+  handleTouchMove($event: TouchEvent) {
+    if (this.hoverScrub()) {
 
       const cursorX = ($event.targetTouches[0].clientX) - this.leftOffset;
 
       if (cursorX < this.containerWidth && cursorX > 0) {
-        this.indexToShow = Math.floor(cursorX * (this.video.screens / this.containerWidth));
-        this.percentOffset = this.indexToShow * (100 / (this.video.screens - 1));
+        this.indexToShow = Math.floor(cursorX * (this.video().screens / this.containerWidth));
+        this.percentOffset = this.indexToShow * (100 / (this.video().screens - 1));
       }
 
     }
@@ -133,14 +134,14 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
    * Use $event to determine `indexToShow`
    * @param $event
    */
-  handleClick($event: any) {
+  handleClick($event: PointerEvent) {
     // TODO -- handle: this.hoverScrub
     // and then change name to `this.playFromClickedLocation` or something
 
-    if (this.connected) {
+    if (this.connected()) {
       const cursorX = $event.layerX;
-      this.indexToShow = Math.floor(cursorX * (this.video.screens / this.containerWidth));
-      this.videoClick.emit({ video: this.video, thumbIndex: this.indexToShow });
+      this.indexToShow = Math.floor(cursorX * (this.video().screens / this.containerWidth));
+      this.videoClick.emit({ video: this.video(), thumbIndex: this.indexToShow });
     }
   }
 
