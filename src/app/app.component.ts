@@ -1,12 +1,16 @@
 import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 // import { Platform } from '@angular/cdk/platform'; <-- TODO: fix, follow the  <-- ***
 
-import { VirtualScrollerComponent } from '@iharbeck/ngx-virtual-scroller';
+import { VirtualScrollerComponent, VirtualScrollerModule } from '@iharbeck/ngx-virtual-scroller';
 
 import { errorAppear, searchAnimation, settingsAnimation } from './animations';
 
 import type { OnInit } from '@angular/core';
 import type { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
+import { NgClass, NgStyle } from '@angular/common';
+import { ThumbnailComponent } from './thumb/thumbnail.component';
+import { FormsModule } from '@angular/forms';
+import { SearchPipe } from './search.pipe';
 
 interface RemoteSettings {
   compactView: boolean;
@@ -28,7 +32,7 @@ interface IncomingMessage {
     styleUrls: ['./app.component.scss'],
     animations: [errorAppear, searchAnimation, settingsAnimation],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [VirtualScrollerModule, NgClass, ThumbnailComponent, NgStyle, FormsModule, SearchPipe]
 })
 export class AppComponent implements OnInit {
 
