@@ -17,11 +17,14 @@
     (click)="handleClick($event)"
 
     [ngStyle]="{
-        height: imgHeight() + 'px',
-        'background-image': 'url(' + (hover ? fullFilePath : firstFilePath) + ')',
-        'background-position-x': percentOffset + '%'
+        height: imgHeight() + 'px'
       }"
     >
+      <img
+        [ngStyle]="{ height: imgHeight() + 'px',
+                     transform: 'translate(' + (-percentOffset) + '%, 0)' }"
+        src="{{ hover ? fullFilePath : firstFilePath }}"
+      >
     @if (!connected()) {
       <span class="not-connected"></span>
     }
