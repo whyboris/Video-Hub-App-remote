@@ -1,6 +1,6 @@
 import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgClass } from '@angular/common';
+
 // import { Platform } from '@angular/cdk/platform'; <-- TODO: fix, follow the  <-- ***
 
 import { VirtualScrollerComponent, VirtualScrollerModule } from '@iharbeck/ngx-virtual-scroller';
@@ -31,7 +31,7 @@ interface IncomingMessage {
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss', './animations.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [VirtualScrollerModule, NgClass, ThumbnailComponent, FormsModule, SearchPipe]
+    imports: [VirtualScrollerModule, ThumbnailComponent, FormsModule, SearchPipe]
 })
 export class AppComponent implements OnInit {
 

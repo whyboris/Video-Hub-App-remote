@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output, ViewChild, input } from '@angular/core';
-import { NgClass } from '@angular/common';
+
 
 import { FilePathService } from '../file-path.service';
 
@@ -10,8 +10,7 @@ import type { OnInit, ElementRef, OnDestroy } from "@angular/core";
     selector: 'app-thumbnail',
     templateUrl: './thumbnail.component.html',
     styleUrls: ['./thumbnail.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [NgClass]
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ThumbnailComponent implements OnInit, OnDestroy {
 

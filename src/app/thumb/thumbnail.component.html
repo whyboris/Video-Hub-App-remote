@@ -4,7 +4,7 @@
       width: elWidth() + 'px'
     }"
   class="filmstrip-container"
-  [ngClass]="{ 'compact-margins': compactView() }"
+  [class.compact-margins]="compactView()"
   >
 
   <div
@@ -31,7 +31,7 @@
   @if (!compactView()) {
     <span
       class="title"
-      [ngClass]="{ 'larger-font': largerFont() }"
+      [class.larger-font]="largerFont()"
       [style.color]="darkMode() ? '#BBBBBB' : '#000000'"
       >
       {{ video().cleanName }}
