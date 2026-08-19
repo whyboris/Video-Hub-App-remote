@@ -20,8 +20,14 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserAnimationsModule, BrowserModule, CommonModule, FormsModule, VirtualScrollerModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })),
-        FilePathService
+      importProvidersFrom(
+        BrowserAnimationsModule,
+        BrowserModule,
+        CommonModule,
+        FormsModule,
+        VirtualScrollerModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+      ),
+      FilePathService,
     ]
-})
-  .catch(err => console.error(err));
+}).catch(err => console.error(err));
