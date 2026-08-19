@@ -1,5 +1,3 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { enableProdMode, importProvidersFrom } from '@angular/core';
@@ -21,7 +19,6 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
     providers: [
       importProvidersFrom(
-        BrowserAnimationsModule,
         BrowserModule,
         CommonModule,
         FormsModule,

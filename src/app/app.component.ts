@@ -9,8 +9,6 @@ import { ThumbnailComponent } from './thumb/thumbnail.component';
 
 import { SearchPipe } from './search.pipe';
 
-import { errorAppear, searchAnimation, settingsAnimation } from './animations';
-
 import type { OnInit } from '@angular/core';
 import type { ImageElement, SocketMessage, VideoClickEmit } from './interfaces';
 
@@ -31,8 +29,7 @@ interface IncomingMessage {
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    animations: [errorAppear, searchAnimation, settingsAnimation],
+    styleUrls: ['./app.component.scss', './animations.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [VirtualScrollerModule, NgClass, ThumbnailComponent, NgStyle, FormsModule, SearchPipe]
 })

@@ -5,10 +5,11 @@
     id="scrollDiv"
     [ngClass]="{ 'dark-mode': settings.darkMode }"
     [items]="items | searchPipe : searchString"
-    >
-    @for (item of scroll.viewPortItems; track item) {
+  >
+    @for (item of scroll.viewPortItems; track item.uuid) {
       <app-thumbnail
         (videoClick)="handleClick($event)"
+
         [video]="item"
         [connected]="item.connected"
         [elHeight]="previewHeight + (settings.compactView ? 0 : 50)"
@@ -23,10 +24,11 @@
         [largerFont]="settings.largerText"
         [returnToFirstScreenshot]="false"
         [thumbAutoAdvance]="false"
-      [ngStyle]="{
-          height: previewHeight + (settings.compactView ? 4 : 70) + 'px',
-          width:  previewWidth  + (settings.compactView ? 4 : 40) + 'px'
-        }"
+
+        [ngStyle]="{
+            height: previewHeight + (settings.compactView ? 4 : 70) + 'px',
+            width:  previewWidth  + (settings.compactView ? 4 : 40) + 'px'
+          }"
       ></app-thumbnail>
     }
 
@@ -77,7 +79,8 @@
       <div
         class="search-region"
         [ngClass]="{ 'search-region-dark-mode': settings.darkMode }"
-        @searchAnimation
+        animate.enter="slide-up"
+        animate.leave="slide-down"
         >
         <input
           [(ngModel)]="searchString"
@@ -95,7 +98,8 @@
         <div
           class="settings-menu"
           [ngClass]="{ 'settings-menu-dark-mode': settings.darkMode }"
-          @settingsAnimation
+          animate.enter="settings-appear"
+          animate.leave="settings-leave"
           >
           <h1>Settings</h1>
           <div>
@@ -129,8 +133,9 @@
             class="connection-error-modal"
             [ngClass]="{ 'connection-error-modal-dark-mode': settings.darkMode }"
             (click)="refresh()"
-            @errorAppear
-            >
+            animate.enter="error-appear"
+            animate.leave="error-leave"
+          >
             <span class="error">
               Not connected:
             </span>
@@ -146,7 +151,11 @@
             }
 
             @if (showInstructions) {
-              <div class="install-instructions" @errorAppear>
+              <div
+                class="install-instructions"
+                animate.enter="error-appear"
+                animate.leave="error-leave"
+              >
                 <button (click)="showInstructions = false">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
