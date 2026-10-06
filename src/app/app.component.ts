@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 
 // import { Platform } from '@angular/cdk/platform'; <-- TODO: fix, follow the  <-- ***
 
-import { VirtualScrollerComponent, VirtualScrollerModule } from '@iharbeck/ngx-virtual-scroller';
+import { VirtualScrollerComponent } from '@kareadita/ngx-virtual-scroller';
 
 import { ThumbnailComponent } from './thumb/thumbnail.component';
 
@@ -31,7 +31,7 @@ interface IncomingMessage {
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss', './animations.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [VirtualScrollerModule, ThumbnailComponent, FormsModule, SearchPipe]
+    imports: [VirtualScrollerComponent, ThumbnailComponent, FormsModule, SearchPipe]
 })
 export class AppComponent implements OnInit {
 
